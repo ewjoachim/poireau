@@ -8,6 +8,11 @@ Who does that ?
 This project is currently managed by members of the [Negitachi](http://www.negitachi.fr) choir.
 
 
+How is Poireau as of now ?
+==========================
+
+Poireau is in "not even alpha state" for now. It's still going under heavy development and not ready for anything serious.
+
 How to use the project if you're not used to working with Python/Django projects
 ================================================================================
 
