@@ -18,34 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: poireau/singers/models.py:13
-msgid "Member"
-msgstr "Membre"
+#: poireau/common/settings.py:83
+msgid "English"
+msgstr "Anglais"
 
-#: poireau/singers/models.py:14
-msgid "Main Section"
-msgstr "Pupitre principal"
-
-#: poireau/singers/models.py:15
-msgid "Roles"
-msgstr "Rôles"
-
-#: poireau/singers/models.py:22
-msgid "Singer"
-msgstr "Membre chantant"
-
-#: poireau/singers/models.py:23
-msgid "Singers"
-msgstr "Membres chantant"
-
-#: poireau/singers/models.py:27
-msgid "Name"
-msgstr "Nom"
-
-#: poireau/singers/models.py:34
-msgid "Section"
-msgstr "Pupitre"
-
-#: poireau/singers/models.py:35
-msgid "Sections"
-msgstr "Pupitres"
+#: poireau/common/settings.py:84
+msgid "French"
+msgstr "Français"

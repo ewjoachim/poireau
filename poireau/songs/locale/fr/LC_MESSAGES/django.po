@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 22:59+0000\n"
+"POT-Creation-Date: 2015-01-03 14:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: poireau/songs/models/part.py:11 poireau/songs/models/song.py:26
+#: poireau/songs/models/part.py:11 poireau/songs/models/song.py:27
 msgid "Song"
 msgstr "Chanson"
 
@@ -34,18 +34,51 @@ msgstr "Voix"
 msgid "Parts"
 msgstr "Voix"
 
-#: poireau/songs/models/part.py:79
-msgid "Unnamed part"
-msgstr "Sans titre"
+#: poireau/songs/models/part.py:113
+msgid "A"
+msgstr "la"
 
-#: poireau/songs/models/song.py:20
+#: poireau/songs/models/part.py:113
+msgid "B"
+msgstr "si"
+
+#: poireau/songs/models/part.py:113
+msgid "C"
+msgstr "do"
+
+#: poireau/songs/models/part.py:113
+msgid "D"
+msgstr "ré"
+
+#: poireau/songs/models/part.py:113
+msgid "E"
+msgstr "mi"
+
+#: poireau/songs/models/part.py:113
+msgid "F"
+msgstr "fa"
+
+#: poireau/songs/models/part.py:113
+msgid "G"
+msgstr "sol"
+
+#: poireau/songs/models/song.py:21
 msgid "Path"
-msgstr "Chemon"
+msgstr "Chemin"
 
-#: poireau/songs/models/song.py:23
+#: poireau/songs/models/song.py:24
 msgid "Name"
 msgstr "Nom"
 
-#: poireau/songs/models/song.py:27
+#: poireau/songs/models/song.py:28
 msgid "Songs"
 msgstr "Chansons"
+
+#: poireau/songs/models/song.py:60
+#, python-brace-format
+msgid "Part {number}"
+msgstr "Voix {number}"
+
+#: poireau/songs/models/song.py:66
+msgid "Unnamed part"
+msgstr "Sans titre"
