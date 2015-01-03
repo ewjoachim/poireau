@@ -37,3 +37,9 @@ How to launch the tests
     ./manage.py test
 
 (Note : no tests have been written so far... [TODO] anyone ?)
+
+
+How to discuss
+--------------
+
+[Mailing List](https://groups.google.com/forum/?hl=fr#!forum/poireau)
