@@ -152,4 +152,3 @@ class Part(models.Model):
         """
         xml_tree.getroot().find("part-list").remove(self.xml_score_part)
         xml_tree.getroot().remove(self.xml_part)
-
