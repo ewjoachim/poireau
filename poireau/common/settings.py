@@ -14,7 +14,9 @@ from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(unicode(__file__)))
+
+ROOT_DIR = os.path.dirname(unicode(__file__))
+BASE_DIR = os.path.dirname(ROOT_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -83,7 +85,7 @@ LANGUAGES = (
 )
 
 LOCALE_PATHS = (
-    os.path.join(BASE_DIR, "poireau", "common", "locale"),
+    os.path.join(ROOT_DIR, "common", "locale"),
 )
 
 TIME_ZONE = 'UTC'
