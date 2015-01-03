@@ -129,10 +129,22 @@ class Part(models.Model):
         """
         Returns the first notes of a part
         """
-        for xml_note in self.xml_part.iterfind("note"):
-            if xml_note.find("rest"):
+        for xml_note in self.xml_part.iterfind("measure/note"):
+            if xml_note.find("rest") is not None:
                 continue
-            return xml_note.find("step").text, xml_note.find("octave").text, xml_note.find("step").text or ""
+
+            step = xml_note.find("pitch/step").text
+            octave = xml_note.find("pitch/octave").text
+            alter_node = xml_note.find("pitch/alter")
+            alter = alter_node.text if alter_node is not None else ""
+            return (
+                force_text({
+                    "A": _("A"), "B": _("B"), "C": _("C"), "D": _("D"),
+                    "E": _("E"), "F": _("F"), "G": _("G")
+                }[step]),
+                {"1": "♯", "-1": "♭"}.get(alter, ""),
+                octave
+            )
 
     def remove_from_xml(self, xml_tree):
         """

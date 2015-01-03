@@ -155,6 +155,9 @@ class Song(models.Model):
     def remove_xml_part(self, part):
         part.remove_from_xml(self.parsed_xml)
 
+    def first_notes(self):
+        return {part: part.first_note for part in self.xml_parts}
+
     def export(self):
         """
         Will export the current state of the xml file to pdf (score) and midi.
