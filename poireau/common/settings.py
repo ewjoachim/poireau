@@ -1,5 +1,5 @@
 """
-Django settings for negitachi project.
+Django settings for poireau project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -40,8 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'bootstrap3',
-    'negitachi.songs',
-    'negitachi.singers',
+    'poireau.songs',
+    'poireau.singers',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,11 +52,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
-ROOT_URLCONF = 'negitachi.urls'
+ROOT_URLCONF = 'poireau.common.urls'
 
-WSGI_APPLICATION = 'negitachi.wsgi.application'
+WSGI_APPLICATION = 'poireau.common.wsgi.application'
 
 
 # Database
@@ -72,7 +73,11 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'fr-fr'
+LANGUAGE_CODE = 'en'
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "poireau", "common", "locale"),
+)
 
 TIME_ZONE = 'UTC'
 
@@ -89,3 +94,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "..", "Chansons Negitachi"))
+
+STATIC_ROOT = ''

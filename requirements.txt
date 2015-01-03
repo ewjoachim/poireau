@@ -1,0 +1,12 @@
+-e .
+
+pylint
+pep8
+pyflakes
+ipython[all]
+
+Django==1.7.1
+django-bootstrap3==5.0.3
+django-extensions==1.4.9
+django-debug-toolbar==1.2.2
+sh==1.11

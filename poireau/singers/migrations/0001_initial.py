@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
             name='Section',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=64, verbose_name='Nom')),
+                ('name', models.CharField(unique=True, max_length=64, verbose_name='Name')),
             ],
             options={
-                'verbose_name': 'Pupitre',
-                'verbose_name_plural': 'Pupitres',
+                'verbose_name': 'Section',
+                'verbose_name_plural': 'Sections',
             },
             bases=(models.Model,),
         ),
@@ -26,11 +26,11 @@ class Migration(migrations.Migration):
             name='Singer',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('main_section', models.ForeignKey(verbose_name='Pupitre principal', to='singers.Section')),
+                ('main_section', models.ForeignKey(verbose_name='Main Section', to='singers.Section')),
             ],
             options={
-                'verbose_name': 'Membre chantant',
-                'verbose_name_plural': 'Membres chantant',
+                'verbose_name': 'Singer',
+                'verbose_name_plural': 'Singers',
             },
             bases=(models.Model,),
         ),

@@ -1,5 +1,7 @@
-
 Chansons Negitachi/*
 research/*
 db.sqlite3
 *.egg-info
+.ipynb_checkpoints
+output.pdf
+output.midi

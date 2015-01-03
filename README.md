@@ -1,11 +1,39 @@
-Pool Of Intelligent Records Effortlessly Auto-generated U
+# Pool Of Intelligent Records Effortlessly Auto-generated for Usability (POIREAU)
 
-This project aims at creating an internal website to ease file management between all the members of a choir.
+This project aims at creating an internal website to ease file management and song learning between all the members of a choir.
 
-Several objectives include :
- - Access to the partitions and musical files for everyone.
- - Access to specific files for the different singing parts.
- - Auto-generation of the scores and of each music file from the musicxml file
- - Anything that could help us access, learn, memorize and master all the songs, and prepare for the different concerts.
+Who does that ?
+===============
+
+This project is currently managed by members of the [Negitachi](http://www.negitachi.fr) choir.
 
 
+How to use the project if you're not used to working with Python/Django projects
+================================================================================
+
+You will find details instructions [here](tutorial.md) on how to understand the project if you're not yet used to Python/Django development.
+
+
+How to use the project if you're used to working with Python/Django projects
+============================================================================
+
+Installation
+------------
+
+    pip install -r requirements.txt
+    ./manage.py migrate
+
+
+How to try some features
+------------------------
+
+    ./manage.py shell_plus --notebook
+
+and open Poireau Notebook
+
+How to launch the tests
+-----------------------
+
+    ./manage.py tests
+
+(Note : no tests have been written so far... [TODO] anyone ?)

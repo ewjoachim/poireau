@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='singer',
             name='user',
-            field=models.OneToOneField(verbose_name='Membre', to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(verbose_name='Member', to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
     ]
