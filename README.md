@@ -34,6 +34,6 @@ and open Poireau Notebook
 How to launch the tests
 -----------------------
 
-    ./manage.py tests
+    ./manage.py test
 
 (Note : no tests have been written so far... [TODO] anyone ?)
