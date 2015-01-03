@@ -2,14 +2,24 @@
 
 from __future__ import unicode_literals
 
+import itertools
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_text
 
 
 class Part(models.Model):
     name = models.CharField(max_length=64)
     song = models.ForeignKey("songs.Song", related_name='parts', verbose_name=_("Song"))
     section = models.ForeignKey("singers.Section", related_name='parts', verbose_name=_("Section"), blank=True, null=True)
+    index_in_song = models.IntegerField(
+        verbose_name=_("Index"), help_text=_(
+            "Number of the part in all the unnamed voices in the part "
+            "(used for unnamed parts only)"
+        ),
+        blank=True, null=True
+    )
 
     def __unicode__(self):
         return self.name
@@ -23,16 +33,21 @@ class Part(models.Model):
     # XML Management Methods
 
     @classmethod
-    def part_from_xml(cls, xml_score_part, xml_tree, song):
+    def part_from_xml(cls, xml_score_part, xml_tree, song, counter):
         """
         Creates a Part object from the xml content.
             xml_score_part: the ElementTree object referencing the <score-part> tag
             xml_tree: the whole xml tree (used to find the part itself)
+            song is the instance of the song to create the part in
+            counter is an intertool counter used to give an incremental number to unnamed parts
         """
         part = cls()
         part.set_xml(xml_score_part, xml_tree)
         part.name = part.get_xml_part_name(xml_score_part)
         part.song = song
+        if part.name == "":
+            part.index_in_song = next(counter)
+            part.name = _("Part {number}").format(number=part.index_in_song)
 
         return part
 
@@ -41,8 +56,9 @@ class Part(models.Model):
         """
         Create all the part objects from the whole song XML. Returns a list.
         """
+        counter = itertools.count(1)  # Indices are 1-based
         return [
-            cls.part_from_xml(score_part, xml_tree, song)
+            cls.part_from_xml(score_part, xml_tree, song, counter)
             for score_part in xml_tree.getroot().findall("part-list/score-part")
         ]
 
@@ -51,13 +67,25 @@ class Part(models.Model):
         Given an instance of part and the song XML tree, loads the XML part in the
         instance to allow part manipulations
         """
-        xml_score_part = next(iter(
-            score_part
-            for score_part in xml_tree.getroot().findall("part-list/score-part")
-            if self.get_xml_part_name(score_part) == self.name
-        ), None)
+        if self.index_in_song is not None:
+            # Retreive by index
+            try:
+                xml_score_part = [
+                    score_part
+                    for score_part in xml_tree.getroot().findall("part-list/score-part")
+                    if not self.get_xml_part_name(score_part)
+                ][self.index_in_song - 1]  # Indices are 1-based
+            except IndexError:
+                raise ValueError("Part number {} not found in the Song.".format(self.index_in_song))
+        else:
+            # Retrieve by name
+            xml_score_part = next(iter(
+                score_part
+                for score_part in xml_tree.getroot().findall("part-list/score-part")
+                if self.get_xml_part_name(score_part) == self.name
+            ), None)
         if xml_score_part is None:
-            raise ValueError("Part {} not found in the Song.")
+            raise ValueError("Part {} not found in the Song.".format(self.name))
 
         self.set_xml(xml_score_part, xml_tree)
 

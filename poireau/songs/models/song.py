@@ -53,25 +53,14 @@ class Song(models.Model):
         for part in parts:
             part.section = sections.get(part.name, None)
 
-        unnamed_parts = [part for part in parts if part.name == ""]
-        if len(unnamed_parts) > 1:
-            i = 1
-            for part in unnamed_parts:
-                part.name = _("Part {number}").format(number=i)
-                i += 1
-
-        # Last chance renaming:
-        for part in parts:
-            if part.name == "":
-                part.name = _("Unnamed part")
         Part.objects.bulk_create(parts)
         return parts
 
     @classmethod
     def song_from_path(cls, path, name_xml, song_id=None):
-        name_xml = name_xml[:-4]
+        # name_xml = name_xml[:-4]
         name_dir = os.path.basename(path)
-        name = name_dir if name_dir == name_xml else "{} ({})".format(name_dir, name_xml)
+        name = name_dir  # if name_dir == name_xml else "{} ({})".format(name_dir, name_xml)
         return cls(name=name, path=path, id=song_id)
 
     @classmethod
