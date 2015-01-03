@@ -179,7 +179,6 @@ class Song(models.Model):
             # For now, we leave it as is, after creating a pdf file and a midi file.
             # Midi to mp3 conversion can be done :
             # http://devonbryant.github.io/blog/2013/08/24/midi-to-audio-conversion-with-python/
-            return os.listdir(dir_path)
 
         finally:
             os.chdir(old_dir)
