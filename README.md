@@ -45,6 +45,9 @@ Installation
     # preparing the translations
     ./script/compilemessages.sh
 
+    # create a superuser
+    ./manage.y createsuperuser
+
 
 Try some features
 -----------------
@@ -58,8 +61,8 @@ and open Poireau Notebook.
 Via the the views :
 	./manage.py runserver
 
-How to launch the tests
------------------------
+Launch the tests
+----------------
 
     ./manage.py test
 

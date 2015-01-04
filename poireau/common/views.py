@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.views.generic import TemplateView, View
+from django.contrib.auth import views as django_auth_views
 
 
 class BaseViewMixin(object):
@@ -27,3 +28,21 @@ class BaseLoggedViewMixin(BaseViewMixin, LoginRequiredMixin):
 class HomeView(BaseLoggedViewMixin, TemplateView):
     template_name = "base/home.html"
 
+
+class LoginView(BaseViewMixin, TemplateView):
+    template_name = "auth/login.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        return django_auth_views.login(
+            request=request, template_name=self.template_name,
+            extra_context=self.get_context_data()
+        )
+
+
+class LogoutView(BaseViewMixin, View):
+    template_name = "auth/logout.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        return django_auth_views.logout_then_login(
+            request=request
+        )

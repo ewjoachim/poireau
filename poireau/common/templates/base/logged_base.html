@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+{% load i18n bootstrap3 staticfiles %}
+
+{% block menu_bar %}
+	<ul class="nav navbar-nav">
+		<li class="active"><a href="#">{% trans "Home" %}</a></li>
+		<li><a href="#">{% trans "Songs" %}</a></li>
+		<li><a href="#">{% trans "People" %}</a></li>
+		<li><a href="#">{% trans "Concerts" %}</a></li>
+	</ul>
+{% endblock menu_bar %}
+
+{% block login %}
+	<ul class="nav navbar-nav navbar-right">
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+				<i class="fa fa-user"></i> {{ user.username }} <span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#">{% trans "Account Profile" %}</a></li>
+				<li><a href="#">{% trans "Singer Profile" %}</a></li>
+				<li class="divider"></li>
+				<li><a href="{% url 'logout' %}">{% blocktrans %}Logout{% endblocktrans %}</a></li>
+			</ul>
+		</li>
+	</ul>
+{% endblock login %}

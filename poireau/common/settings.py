@@ -111,6 +111,9 @@ STATICFILES_DIRS = (
     os.path.join(COMMON_DIR, "static"),
 )
 
+# Auth
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
 
 # Application settings
 SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))

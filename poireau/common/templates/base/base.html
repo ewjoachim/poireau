@@ -40,6 +40,8 @@
 					<a class="navbar-brand" href="#">{{ CHOIR_NAME }}</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
+					{% block menu_bar %}{% endblock menu_bar %}
+					{% block login %}{% endblock login %}
 				</div><!--/.nav-collapse -->
 			</div>
 		</nav>
