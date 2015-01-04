@@ -22,6 +22,14 @@ You will find details instructions [here](tutorial.md) on how to understand the 
 How to use the project if you're used to working with Python/Django projects
 ============================================================================
 
+Requirements
+------------
+
+Except those listed in requirements.txt, the requirements for this project are :
+
+ - Lilypond (lilypond and musicxml2ly executables)
+
+
 Installation
 ------------
 
@@ -35,6 +43,7 @@ How to try some features
     ./manage.py shell_plus --notebook
 
 and open Poireau Notebook
+
 
 How to launch the tests
 -----------------------

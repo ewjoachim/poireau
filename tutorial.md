@@ -72,17 +72,20 @@ Django
 
 As far as I know, the best Django tutorial up to date is the one created by [Django Girls](http://tutorial.djangogirls.org/), an organization aiming at helping more girls to learn Django. And more boys too. And everyone.
 
-Configure your database (for now with sqlite3, which means you don't need a server or anything) by doing
+Configure your database (for now with [sqlite3](http://www.sqlite.org/), which means you don't need a server or anything) by doing
 
     ./manage.py migrate
 
 
+Lilypond
+--------
+
+[Lylipond](http://www.lilypond.org/) is a LaTeX module for creating scores. It's a very powerful tool that can do a lot of things and, as of now, it's the best tool we've find to transform a musicxml file to PDF and sound file. As of now, lilypond notation is generated automatically so for now, there's no real need to learn the lilypond syntax, but it may prove helpful later. Though, you will need to have lilypond installed on your machine.
+
 Trying it all
 =============
 
-Now that you master all the tools, you can use it all to navigate to your local git repo, activate your virtual env, and ask django to open an IPython Notebook to launch some code.
-
-At this point, you may have
+Now that you master all the tools, you can use it all to navigate to your local git repo, activate your virtual env, and ask django to open an IPython Notebook to launch some code :
 
     ./manage.py shell_plus --notebook
 
