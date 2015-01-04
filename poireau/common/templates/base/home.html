@@ -1,0 +1,10 @@
+{% extends "base/logged_base.html" %}
+{% load i18n bootstrap3 staticfiles %}
+
+{% block page_title %}{% trans "Home" %} - {% endblock page_title %}
+
+{% block content %}
+	<div class="row">
+		<p class="col-md-12 text-center">{% blocktrans %}Home page{% endblocktrans %}</p>
+	</div>
+{% endblock content %}

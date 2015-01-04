@@ -25,7 +25,7 @@ How to use the project if you're used to working with Python/Django projects
 Requirements
 ------------
 
-Except those listed in requirements.txt, the requirements for this project are :
+Except those listed in requirements.txt, the non-python requirements for this project are :
 
  - Lilypond (lilypond and musicxml2ly executables)
 
@@ -33,17 +33,30 @@ Except those listed in requirements.txt, the requirements for this project are :
 Installation
 ------------
 
+	# Install the python dependencies
     pip install -r requirements.txt
+
+    # Create the database
     ./manage.py migrate
 
+    # preparing the static files
+    ./manage.py collectstatic
 
-How to try some features
-------------------------
+    # preparing the translations
+    ./script/compilemessages.sh
+
+
+Try some features
+-----------------
+
+Via the Notebook :
 
     ./manage.py shell_plus --notebook
 
-and open Poireau Notebook
+and open Poireau Notebook.
 
+Via the the views :
+	./manage.py runserver
 
 How to launch the tests
 -----------------------
@@ -51,6 +64,17 @@ How to launch the tests
     ./manage.py test
 
 (Note : no tests have been written so far... [TODO] anyone ?)
+
+Translations
+------------
+
+Launch the script that parses the code to find translatable strings
+
+    ./scripts/makemessages.sh
+
+Once translation is written, compile it with
+
+    ./scripts/compilemessages.sh
 
 
 How to discuss

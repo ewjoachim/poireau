@@ -6,3 +6,4 @@ db.sqlite3
 output.pdf
 output.midi
 *.mo
+*/collected/*

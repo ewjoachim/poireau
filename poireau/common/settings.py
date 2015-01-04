@@ -15,8 +15,8 @@ from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-ROOT_DIR = os.path.dirname(unicode(__file__))
-BASE_DIR = os.path.dirname(ROOT_DIR)
+COMMON_DIR = os.path.dirname(unicode(__file__))
+BASE_DIR = os.path.dirname(COMMON_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -85,7 +85,11 @@ LANGUAGES = (
 )
 
 LOCALE_PATHS = (
-    os.path.join(ROOT_DIR, "common", "locale"),
+    os.path.join(COMMON_DIR, "locale"),
+)
+
+TEMPLATE_DIRS = (
+    os.path.join(COMMON_DIR, "templates"),
 )
 
 TIME_ZONE = 'UTC'
@@ -101,7 +105,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "collected")
 
+STATICFILES_DIRS = (
+    os.path.join(COMMON_DIR, "static"),
+)
+
+
+# Application settings
 SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
-
-STATIC_ROOT = ''
+CHOIR_NAME = "Negitachi"
