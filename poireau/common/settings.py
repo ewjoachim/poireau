@@ -102,6 +102,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "..", "Chansons Negitachi"))
+SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
 
 STATIC_ROOT = ''
