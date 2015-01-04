@@ -84,3 +84,9 @@ How to discuss
 --------------
 
 [Mailing List](https://groups.google.com/forum/?hl=fr#!forum/poireau)
+
+
+License
+-------
+
+Please don't do anything evil while we're struggling to chose our licensing form.
