@@ -5,7 +5,7 @@ pep8
 pyflakes
 ipython[all]
 
-Django==1.7.1
+Django==1.7.2
 django-bootstrap3==5.0.3
 django-extensions==1.4.9
 django-debug-toolbar==1.2.2
