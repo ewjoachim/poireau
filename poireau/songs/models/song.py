@@ -64,12 +64,12 @@ class Song(models.Model):
         return cls(name=name, path=path, id=song_id)
 
     @classmethod
-    def explore_folder(cls, songs_in_db):
+    def explore_folder(cls, path, songs_in_db):
         new_songs, existing_songs = [], []
 
         song_by_id = {song.id: song for song in songs_in_db}
 
-        for path, __, files in os.walk(settings.SONGS_FOLDER):
+        for path, __, files in os.walk(path):
             path = path
             try:
                 xml = next(filename for filename in files if filename.endswith(".xml"))
@@ -103,13 +103,15 @@ class Song(models.Model):
         return new_songs, existing_songs
 
     @classmethod
-    def discover_songs_changes(cls, commit=True):
+    def discover_songs_changes(cls, path=None, commit=True):
         """
         Looks in the dropbox folder and synchronises the songs and their names/paths.
         """
+        path = path or settings.SONGS_FOLDER
+
         songs_in_db = list(cls.objects.exclude(path=""))
 
-        new_songs, existing_songs = cls.explore_folder(songs_in_db)
+        new_songs, existing_songs = cls.explore_folder(path, songs_in_db)
 
         existing_ids = set(element.id for element in existing_songs)
 
