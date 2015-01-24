@@ -1,0 +1,42 @@
+{% extends "base/logged_base.html" %}
+{% load i18n bootstrap3 staticfiles %}
+
+{% block page_title %}{% trans "Songs" %} - {% endblock page_title %}
+
+{% block content %}
+	{% regroup object_list by folder as folder_list %}
+	{% for folder in folder_list %}
+		<h3>{{folder.grouper|default:_("Main")|title}} :</h3>
+		<div class="row">
+		{% for song in folder.list %}
+			{% if forloop.counter0|divisibleby:"3" and forloop.counter0 > 0 %}
+				</div><div class="row">
+			{% endif %}
+			<div class="col-md-4"><div class="panel panel-success">
+				<div class="panel-heading"><h3 class="panel-title">
+					<a href="{{ song.get_absolute_url }}"><i class="fa fa-music"></i> {{ song.name }}</a>
+				</h3></div>
+				<ul class="panel-body list-group">
+					<li class="list-group-item">
+						{% blocktrans count num_parts=song.parts.all|length %}
+							This song has a <strong>single</strong> part
+						{% plural %}
+							This song has <strong>{{num_parts}}</strong> parts
+						{% endblocktrans %}:
+						{{ song.parts.all|join:", " }}
+					</li>
+					<li class="list-group-item">
+						{% blocktrans with folder=song.folder %}In <strong>{{ folder }}</strong>{% endblocktrans %}
+						{% if song.date_created %}
+							{% blocktrans with time_since=song.date_created|timesince %}, added <strong>{{ time_since }}</strong> ago{% endblocktrans %}
+						{% endif %}
+						{% if song.date_modified %}
+							{% blocktrans with time_since=song.date_modified|timesince %}, last modified <strong>{{ time_since }}</strong> ago{% endblocktrans %}
+						{% endif %}
+					</li>
+				</ul>
+			</div></div>
+		{% endfor %}
+		</div>
+	{% endfor %}
+{% endblock content %}

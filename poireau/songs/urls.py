@@ -7,5 +7,5 @@ from .views import song
 
 urlpatterns = patterns(
     '',
-    url(r'^song/list$', song.ListView.as_view(), name='song_list'),
+    url(r'^song$', song.SongListView.as_view(), name='song_list'),
 )

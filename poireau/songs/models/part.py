@@ -137,14 +137,7 @@ class Part(models.Model):
             octave = xml_note.find("pitch/octave").text
             alter_node = xml_note.find("pitch/alter")
             alter = alter_node.text if alter_node is not None else ""
-            return (
-                force_text({
-                    "A": _("A"), "B": _("B"), "C": _("C"), "D": _("D"),
-                    "E": _("E"), "F": _("F"), "G": _("G")
-                }[step]),
-                {"1": "♯", "-1": "♭"}.get(alter, ""),
-                octave
-            )
+            return step, octave, alter
 
     def remove_from_xml(self, xml_tree):
         """

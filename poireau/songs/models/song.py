@@ -5,8 +5,8 @@ from __future__ import unicode_literals
 import os
 from cStringIO import StringIO
 from xml.etree import ElementTree as ET
-import tempfile
-import shutil
+# import tempfile
+# import shutil
 
 from django.db import models
 from django.conf import settings
@@ -23,11 +23,18 @@ class Song(models.Model):
     )
     name = models.CharField(verbose_name=_("Name"), max_length=512)
 
+    date_created = models.DateTimeField(verbose_name=_('Creation date'), auto_now_add=True, blank=True)
+    date_modified = models.DateTimeField(verbose_name=_('Last modification date'), auto_now=True, blank=True)
+
     class Meta(object):
         verbose_name = _("Song")
         verbose_name_plural = _("Songs")
 
     id_filename = ".id"
+
+    @property
+    def folder(self):
+        return os.path.basename(os.path.dirname(self.path))
 
     @property
     def xml(self):
@@ -64,13 +71,13 @@ class Song(models.Model):
         return cls(name=name, path=path, id=song_id)
 
     @classmethod
-    def explore_folder(cls, path, songs_in_db):
+    def explore_folder(cls, base_path, songs_in_db):
         new_songs, existing_songs = [], []
 
         song_by_id = {song.id: song for song in songs_in_db}
 
-        for path, __, files in os.walk(path):
-            path = path
+        for path, __, files in os.walk(base_path):
+            path = os.path.join(os.path.dirname(os.path.abspath(base_path)), path)
             try:
                 xml = next(filename for filename in files if filename.endswith(".xml"))
             except StopIteration:
@@ -122,14 +129,15 @@ class Song(models.Model):
         if commit:
             for song in deleted_songs:
                 song.path = ""
-                song.clean()
+                song.full_clean()
                 song.save()
             for song in new_songs:
-                song.clean()
+                song.full_clean()
                 song.save()
                 song.create_id_file()
                 song.create_parts()
             for song in moved_songs:
+                song.full_clean()
                 song.save()
 
         return {"new": new_songs, "deleted": deleted_songs, "moved": moved_songs}
@@ -159,6 +167,21 @@ class Song(models.Model):
 
     def first_notes(self):
         return {part: part.first_note for part in self.xml_parts}
+
+    def display_first_notes(self):
+        display_notes = []
+        first_notes = self.first_notes()
+
+        for part in self.parts.all():
+            step, alter, __ = first_notes[part]
+            display_notes.append("{part} : {note}{accidental}".format(
+                part=part.name,
+                note={
+                    "A": _("A"), "B": _("B"), "C": _("C"), "D": _("D"),
+                    "E": _("E"), "F": _("F"), "G": _("G")
+                }[step],
+                accidental={"1": _("♯"), "-1": _("♭")}.get(alter, "")
+            ))
 
     def export(self):
         """
