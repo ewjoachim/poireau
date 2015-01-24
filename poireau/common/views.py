@@ -11,6 +11,7 @@ class BaseViewMixin(object):
     def get_context_data(self, **kwargs):
         context = super(BaseViewMixin, self).get_context_data(**kwargs)
         context["CHOIR_NAME"] = settings.CHOIR_NAME
+        context["menu_list"] = getattr(self, "menu_list", [])
         return context
 
 
@@ -27,6 +28,7 @@ class BaseLoggedViewMixin(BaseViewMixin, LoginRequiredMixin):
 
 class HomeView(BaseLoggedViewMixin, TemplateView):
     template_name = "base/home.html"
+    menu_list = ["home"]
 
 
 class LoginView(BaseViewMixin, TemplateView):
