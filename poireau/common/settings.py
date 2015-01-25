@@ -151,9 +151,8 @@ TEMPLATE_LOADERS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-if DEBUG:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, "collected")
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "collected")
 
 STATICFILES_DIRS = (
     os.path.join(COMMON_DIR, "static"),
