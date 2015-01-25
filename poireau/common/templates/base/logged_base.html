@@ -4,7 +4,7 @@
 {% block menu_bar %}
 	<ul class="nav navbar-nav">
 		<li class="{% if 'home' in menu_list %}active{% endif %}"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-		<li class="{% if 'songs' in menu_list %}active{% endif %}"><a href="{% url 'song_list' %}">{% trans "Songs" %}</a></li>
+		<li class="{% if 'songs' in menu_list %}active{% endif %}"><a href="{% url 'songs:song_list' %}">{% trans "Songs" %}</a></li>
 		{% comment %}
 			<li class="{% if 'people' in menu_list %}active{% endif %}"><a href="#">{% trans "People" %}</a></li>
 			<li class="{% if 'concerts' in menu_list %}active{% endif %}"><a href="#">{% trans "Concerts" %}</a></li>
