@@ -7,3 +7,5 @@ output.pdf
 output.midi
 *.mo
 */collected/*
+
+poireau/common/local_settings.py

@@ -10,34 +10,10 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 from __future__ import unicode_literals
 
-import json
-
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
-CONFIGURATION = {}
-
-if "POIREAU_CONFIGURATION_FILE" in os.environ:
-    try:
-        with open(os.environ["POIREAU_CONFIGURATION_FILE"], "r") as file_handler:
-            CONFIGURATION = json.load(file_handler)
-    except IOError:
-        raise ValueError(
-            "Env var POIREAU_CONFIGURATION_FILE is found but the file is not found at location {}".format(
-                os.environ["POIREAU_CONFIGURATION_FILE"]
-            )
-        )
-
-
-def from_environ(param_name, default=None):
-    """
-    Will search the environment variables for one named "<SETTING_NAME>"
-    and use it or use provided default.
-    """
-    return CONFIGURATION.get(param_name, default)
-
 
 COMMON_DIR = os.path.dirname(unicode(__file__))
 BASE_DIR = os.path.dirname(COMMON_DIR)
@@ -48,32 +24,17 @@ BASE_DIR = os.path.dirname(COMMON_DIR)
 
 # Dev secret key. DO NOT go to production with this.
 DEFAULT_SECRET_KEY = 'r#)o^2osljpen358lu$iau5*ji14ip=^$1cj-2b1*mtt&s7is8'
-SECRET_KEY = from_environ("SECRET_KEY", DEFAULT_SECRET_KEY)
+SECRET_KEY = DEFAULT_SECRET_KEY
 
-DEBUG = from_environ("DEBUG", "1") == "1"
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = from_environ("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = []
 
 
-ADMINS = [admin.split(":") for admin in from_environ("ADMINS", "").split(",")]
+ADMINS = []
 MANAGERS = ADMINS
-
-EMAIL_SETTINGS = {
-    "host": "localhost",
-    "user": "",
-    "password": "",
-    "tls": True,
-    "port": 587
-}
-EMAIL_SETTINGS.update(from_environ("MAIL_SETTINGS", {}))
-
-EMAIL_HOST = EMAIL_SETTINGS["host"]
-EMAIL_HOST_USER = EMAIL_SETTINGS["user"]
-EMAIL_HOST_PASSWORD = EMAIL_SETTINGS["password"]
-EMAIL_USE_TLS = EMAIL_SETTINGS["tls"]
-EMAIL_PORT = EMAIL_SETTINGS["port"]
 
 # Application definition
 
@@ -163,11 +124,15 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 
 # Application settings
-SONGS_FOLDER = from_environ("SONGS_FOLDER", os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs")))
-CHOIR_NAME = from_environ("CHOIR_NAME", "Choir")
+SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
+CHOIR_NAME = "Choir"
 
 
 # Security
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+try:
+    from .local_settings import *
+except ImportError:
+    print "poireau/common/local_settings.py not found or produced an ImportError. Default parameters used."
