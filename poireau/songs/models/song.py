@@ -43,7 +43,11 @@ class Song(models.Model):
     @property
     def xml(self):
         try:
-            xml = next(filename for filename in sorted(os.listdir(self.path)) if filename.endswith(".xml"))
+            list_dir = [
+                filename.decode("utf-8") if not isinstance(filename, unicode) else filename
+                for filename in os.listdir(self.path)
+            ]
+            xml = next(filename for filename in sorted(list_dir) if filename.endswith(".xml"))
             return os.path.join(self.path, xml)
         except StopIteration:
             raise ValueError("XML file not found !")
