@@ -17,13 +17,26 @@ from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+CONFIGURATION = {}
+
+if "POIREAU_CONFIGURATION_FILE" in os.environ:
+    try:
+        with open(os.environ["POIREAU_CONFIGURATION_FILE"], "r") as file_handler:
+            CONFIGURATION = json.load(file_handler)
+    except IOError:
+        raise ValueError(
+            "Env var POIREAU_CONFIGURATION_FILE is found but the file is not found at location {}".format(
+                os.environ["POIREAU_CONFIGURATION_FILE"]
+            )
+        )
+
 
 def from_environ(param_name, default=None):
     """
-    Will search the environment variables for one named "POIREAU_<SETTING_NAME>"
+    Will search the environment variables for one named "<SETTING_NAME>"
     and use it or use provided default.
     """
-    return os.environ.get("POIREAU_" + param_name, default)
+    return CONFIGURATION.get(param_name, default)
 
 
 COMMON_DIR = os.path.dirname(unicode(__file__))
