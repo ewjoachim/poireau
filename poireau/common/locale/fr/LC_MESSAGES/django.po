@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-03 14:24+0000\n"
+"POT-Creation-Date: 2015-01-25 09:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,3 +25,41 @@ msgstr "Anglais"
 #: poireau/common/settings.py:84
 msgid "French"
 msgstr "Français"
+
+#: poireau/common/templates/auth/login.html:4
+#: poireau/common/templates/auth/login.html:14
+msgid "Login"
+msgstr "Connexion"
+
+#: poireau/common/templates/base/base.html:12
+msgid "Poireau"
+msgstr "Poireau"
+
+#: poireau/common/templates/base/base.html:35
+msgid "Menu"
+msgstr "Menu"
+
+#: poireau/common/templates/base/home.html:4
+#: poireau/common/templates/base/logged_base.html:6
+msgid "Home"
+msgstr "Accueil"
+
+#: poireau/common/templates/base/home.html:8
+msgid "Home page"
+msgstr "Accueil"
+
+#: poireau/common/templates/base/logged_base.html:7
+msgid "Songs"
+msgstr "Chansons"
+
+#: poireau/common/templates/base/logged_base.html:23
+msgid "Account Profile"
+msgstr "Page d'utilisateur"
+
+#: poireau/common/templates/base/logged_base.html:24
+msgid "Singer Profile"
+msgstr "Page de chanteur"
+
+#: poireau/common/templates/base/logged_base.html:26
+msgid "Logout"
+msgstr "Déconnexion"
