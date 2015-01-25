@@ -11,4 +11,13 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "poireau.common.settings")
 
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+
+_application = get_wsgi_application()
+
+
+def application(environ, start_response):
+    # pass the WSGI environment variables on through to os.environ
+    for var in os.environ:
+        if var.startswith("POIREAU_"):
+            os.environ[var] = environ.get(var, '')
+    return _application(environ, start_response)
