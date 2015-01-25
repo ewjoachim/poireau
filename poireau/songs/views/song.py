@@ -4,11 +4,11 @@ from django.views.generic import View, ListView, DetailView
 from django import http
 from django.core.urlresolvers import reverse_lazy as reverse
 
-from poireau.common.views import BaseViewMixin
+from poireau.common.views import BaseLoggedViewMixin
 from poireau.songs.models import Song
 
 
-class SongMixin(BaseViewMixin):
+class SongMixin(BaseLoggedViewMixin):
     model = Song
 
 
