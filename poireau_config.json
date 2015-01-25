@@ -1,10 +1,10 @@
 {
-	"DEBUG": true
-	"SECRET_KEY": "<Replace this with a long random generated string !>"
-	"CHOIR_NAME": "Name of your choir"
-	"SONGS_FOLDER": "/path/to/your/song/files/"
-	"ALLOWED_HOSTS": "comma,separated,list,of,hostnames,and,ips"
-	"ADMINS": "John:john@doe.com,Jane:jane@doe.com"
+	"DEBUG": true,
+	"SECRET_KEY": "<Replace this with a long random generated string !>",
+	"CHOIR_NAME": "Name of your choir",
+	"SONGS_FOLDER": "/path/to/your/song/files/",
+	"ALLOWED_HOSTS": "comma,separated,list,of,hostnames,and,ips",
+	"ADMINS": "John:john@doe.com,Jane:jane@doe.com",
 
 	"MAIL_SETTINGS": {
 		"host": "localhost",
