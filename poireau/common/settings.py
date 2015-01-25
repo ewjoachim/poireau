@@ -67,7 +67,7 @@ EMAIL_SETTINGS = {
     "tls": True,
     "port": 587
 }
-EMAIL_SETTINGS.update(json.loads(from_environ("MAIL_SETTINGS", "{}")))
+EMAIL_SETTINGS.update(from_environ("MAIL_SETTINGS", {}))
 
 EMAIL_HOST = EMAIL_SETTINGS["host"]
 EMAIL_HOST_USER = EMAIL_SETTINGS["user"]
