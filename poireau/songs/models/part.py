@@ -5,8 +5,7 @@ from __future__ import unicode_literals
 import itertools
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import force_text
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 
 class Part(models.Model):
@@ -129,6 +128,9 @@ class Part(models.Model):
         """
         Returns the first notes of a part
         """
+        if not hasattr(self, "xml_part"):
+            raise ValueError("Cannot read xml for a part if it was not loaded")
+
         for xml_note in self.xml_part.iterfind("measure/note"):
             if xml_note.find("rest") is not None:
                 continue
@@ -137,7 +139,7 @@ class Part(models.Model):
             octave = xml_note.find("pitch/octave").text
             alter_node = xml_note.find("pitch/alter")
             alter = alter_node.text if alter_node is not None else ""
-            return step, octave, alter
+            return Note(step, octave, alter)
 
     def remove_from_xml(self, xml_tree):
         """
@@ -145,3 +147,20 @@ class Part(models.Model):
         """
         xml_tree.getroot().find("part-list").remove(self.xml_score_part)
         xml_tree.getroot().remove(self.xml_part)
+
+
+class Note(object):
+    def __init__(self, step, octave, alter):
+        self.step = step
+        self.octave = octave
+        self.alter = alter
+
+    def __unicode__(self):
+        return " ".join(str_part for str_part in [
+            {
+                "A": ugettext("A"), "B": ugettext("B"), "C": ugettext("C"), "D": ugettext("D"),
+                "E": ugettext("E"), "F": ugettext("F"), "G": ugettext("G")
+            }[self.step],
+            {"1": ugettext("♯"), "-1": ugettext("♭")}.get(self.alter, ""),
+            ugettext("(oct. {octave})").format(octave=self.octave)
+        ] if str_part)

@@ -12,6 +12,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
+from django.core.urlresolvers import reverse_lazy as reverse
 
 import sh
 
@@ -31,6 +32,9 @@ class Song(models.Model):
         verbose_name_plural = _("Songs")
 
     id_filename = ".id"
+
+    def get_absolute_url(self):
+        return reverse("songs:song_detail", kwargs={"pk": self.id})
 
     @property
     def folder(self):
@@ -173,15 +177,12 @@ class Song(models.Model):
         first_notes = self.first_notes()
 
         for part in self.parts.all():
-            step, alter, __ = first_notes[part]
-            display_notes.append("{part} : {note}{accidental}".format(
+            note = first_notes[part]
+            display_notes.append("{part} : {note}".format(
                 part=part.name,
-                note={
-                    "A": _("A"), "B": _("B"), "C": _("C"), "D": _("D"),
-                    "E": _("E"), "F": _("F"), "G": _("G")
-                }[step],
-                accidental={"1": _("♯"), "-1": _("♭")}.get(alter, "")
+                note=note,
             ))
+        return display_notes
 
     def export(self):
         """
