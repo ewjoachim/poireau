@@ -9,8 +9,8 @@ from . import views
 urlpatterns = patterns(
     '',
     # Apps
-    url(r'^songs/', include('poireau.songs.urls'), name="songs"),
-    url(r'^admin/', include(admin.site.urls), name="admin"),
+    url(r'^songs/', include('poireau.songs.urls', namespace="songs")),
+    url(r'^admin/', include(admin.site.urls)),
 
     # Base views
     url(r'^$', views.HomeView.as_view(), name="home"),
