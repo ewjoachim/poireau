@@ -5,6 +5,8 @@ Copy it to local_settings.py and add your specific settings.
 local_settings should ever be commited.
 """
 
+# This is important, especially for SONGS_FOLDER.
+from __future__ import unicode_literals
 
 # production and project specific example settings
 
