@@ -10,10 +10,21 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 from __future__ import unicode_literals
 
+import json
+
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+
+def from_environ(param_name, default=None):
+    """
+    Will search the environment variables for one named "POIREAU_<SETTING_NAME>"
+    and use it or use provided default.
+    """
+    return os.environ.get("POIREAU_" + param_name, default)
+
 
 COMMON_DIR = os.path.dirname(unicode(__file__))
 BASE_DIR = os.path.dirname(COMMON_DIR)
@@ -22,16 +33,34 @@ BASE_DIR = os.path.dirname(COMMON_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r#)o^2osljpen358lu$iau5*ji14ip=^$1cj-2b1*mtt&s7is8'
+# Dev secret key. DO NOT go to production with this.
+DEFAULT_SECRET_KEY = 'r#)o^2osljpen358lu$iau5*ji14ip=^$1cj-2b1*mtt&s7is8'
+SECRET_KEY = from_environ("SECRET_KEY", DEFAULT_SECRET_KEY)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = from_environ("DEBUG", "1") == "1"
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = from_environ("ALLOWED_HOSTS", "").split(",")
 
+
+ADMINS = [admin.split(":") for admin in from_environ("ADMINS", "").split(",")]
+MANAGERS = ADMINS
+
+EMAIL_SETTINGS = {
+    "host": "localhost",
+    "user": "",
+    "password": "",
+    "tls": True,
+    "port": 587
+}
+EMAIL_SETTINGS.update(json.loads(from_environ("MAIL_SETTINGS", "{}")))
+
+EMAIL_HOST = EMAIL_SETTINGS["host"]
+EMAIL_HOST_USER = EMAIL_SETTINGS["user"]
+EMAIL_HOST_PASSWORD = EMAIL_SETTINGS["password"]
+EMAIL_USE_TLS = EMAIL_SETTINGS["tls"]
+EMAIL_PORT = EMAIL_SETTINGS["port"]
 
 # Application definition
 
@@ -100,12 +129,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+TEMPLATE_LOADERS = (
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "collected")
+if DEBUG:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, "collected")
 
 STATICFILES_DIRS = (
     os.path.join(COMMON_DIR, "static"),
@@ -116,5 +151,11 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 
 # Application settings
-SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
-CHOIR_NAME = "Negitachi"
+SONGS_FOLDER = from_environ("SONGS_FOLDER", os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs")))
+CHOIR_NAME = from_environ("CHOIR_NAME", "Choir")
+
+
+# Security
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
