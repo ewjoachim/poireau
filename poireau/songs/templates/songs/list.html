@@ -4,6 +4,7 @@
 {% block page_title %}{% trans "Songs" %} - {% endblock page_title %}
 
 {% block content %}
+	<a class='btn btn-primary pull-right' href="{% url 'songs:song_random' %}"><i class="fa fa-random"></i> {% trans "Random song" %}</a>
 	{% regroup object_list by folder as folder_list %}
 	{% for folder in folder_list %}
 		<h3>{{folder.grouper|default:_("Main")|title}} :</h3>
