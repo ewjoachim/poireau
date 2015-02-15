@@ -1,6 +1,6 @@
 # Pool Of Intelligent Records Effortlessly Auto-generated for Usability (POIREAU)
 
-This project aims at creating an internal website to ease file management and song learning between all the members of a choir.
+This project aims at creating an internal website to ease file management and song learning between all the members of a choir. It mainly uses Python 3, Django, Bootstrap.
 
 Who does that ?
 ===============
@@ -13,14 +13,14 @@ How is Poireau as of now ?
 
 Poireau is in "not even alpha state" for now. It's still going under heavy development and not ready for anything serious.
 
-How to use the project if you're not used to working with Python/Django projects
-================================================================================
+How to use the project if you're not used to working with Python3/Django projects
+=================================================================================
 
-You will find details instructions [here](tutorial.md) on how to understand the project if you're not yet used to Python/Django development.
+You will find details instructions [here](tutorial.md) on how to understand the project if you're not yet used to Python3/Django development.
 
 
-How to use the project if you're used to working with Python/Django projects
-============================================================================
+How to use the project if you're used to working with Python3/Django projects
+=============================================================================
 
 Requirements
 ------------

@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from django.views.generic import View, ListView, DetailView
 from django import http

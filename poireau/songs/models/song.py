@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+
 
 import os
-from cStringIO import StringIO
+from io import StringIO
 from xml.etree import ElementTree as ET
 # import tempfile
 # import shutil
@@ -44,7 +44,7 @@ class Song(models.Model):
     def xml(self):
         try:
             list_dir = [
-                filename.decode("utf-8") if not isinstance(filename, unicode) else filename
+                filename
                 for filename in os.listdir(self.path)
             ]
             xml = next(filename for filename in sorted(list_dir) if filename.endswith(".xml"))

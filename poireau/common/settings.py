@@ -8,14 +8,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-from __future__ import unicode_literals
+
 
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-COMMON_DIR = os.path.dirname(unicode(__file__))
+COMMON_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(COMMON_DIR)
 
 
@@ -135,4 +135,4 @@ SESSION_COOKIE_SECURE = True
 try:
     from .local_settings import *
 except ImportError:
-    print "poireau/common/local_settings.py not found or produced an ImportError. Default parameters used."
+    print ("poireau/common/local_settings.py not found or produced an ImportError. Default parameters used.")
