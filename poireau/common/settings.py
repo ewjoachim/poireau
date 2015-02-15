@@ -129,8 +129,8 @@ CHOIR_NAME = "Choir"
 
 
 # Security
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
 
 try:
     from .local_settings import *
