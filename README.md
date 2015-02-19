@@ -25,9 +25,10 @@ How to use the project if you're used to working with Python3/Django projects
 Requirements
 ------------
 
-Except those listed in requirements.txt, the non-python requirements for this project are :
+Except Python 3 and the requirements listed in requirements.txt, the non-python requirements for this project are :
 
- - Lilypond (lilypond and musicxml2ly executables)
+ - Lilypond (lilypond and musicxml2ly executables) (for now, it's not used)
+ - GetText for translations
 
 
 Installation

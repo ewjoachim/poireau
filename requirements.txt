@@ -1,6 +1,1 @@
 -e .
-
-pylint
-pep8
-pyflakes
-ipython[all]
