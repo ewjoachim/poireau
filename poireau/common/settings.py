@@ -135,4 +135,4 @@ SESSION_COOKIE_SECURE = not DEBUG
 try:
     from .local_settings import *
 except ImportError:
-    print ("poireau/common/local_settings.py not found or produced an ImportError. Default parameters used.")
+    print("poireau/common/local_settings.py not found or produced an ImportError. Default parameters used.")
