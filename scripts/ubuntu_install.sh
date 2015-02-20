@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 # System-wide Dependecies and tools
 # You can probably install all these with homebrew on OSX
