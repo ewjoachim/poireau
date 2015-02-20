@@ -44,6 +44,8 @@ Except Python 3 and the requirements listed in requirements.txt, the non-python 
 Installation
 ------------
 
+(You should probably be in a py3 virtualenv at this point)
+
 	# Install the python dependencies
     pip install -r requirements.txt
 

@@ -1,5 +1,5 @@
 # System-wide Dependecies and tools
-sudo apt-get install git python3 ipython3 ipython3-notebook gettext
+sudo apt-get install git python3 python3-dev g++ gettext
 
 # Get the Poireau source
 git clone https://github.com/ewjoachim/poireau.git
