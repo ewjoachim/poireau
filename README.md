@@ -11,7 +11,7 @@ This project is currently managed by members of the [Negitachi](http://www.negit
 How is Poireau as of now ?
 ==========================
 
-Poireau is in "not even alpha state" for now. It's still going under heavy development and not ready for anything serious.
+Poireau is in "not even alpha state" for now. It still has to go under heavy development before being ready for anything serious.
 
 How to use the project if you're not used to working with Python3/Django projects
 =================================================================================
@@ -21,6 +21,16 @@ You will find details instructions [here](tutorial.md) on how to understand the 
 
 How to use the project if you're used to working with Python3/Django projects
 =============================================================================
+
+Highway to dev
+--------------
+
+If the content of the [Ubuntu Install script](scripts/ubuntu_install.sh) is OK for you, then project installation on Ubuntu 14.04 LTS (Trusty) is as simple as :
+
+    curl -O -L https://raw.githubusercontent.com/ewjoachim/poireau/master/scripts/ubuntu_install.sh
+    chmod +x ubuntu_install.sh
+    ./ubuntu_install.sh
+    rm ubuntu_install.sh
 
 Requirements
 ------------

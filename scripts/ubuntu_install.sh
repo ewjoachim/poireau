@@ -1,5 +1,5 @@
 # System-wide Dependecies and tools
-sudo apt-get install git python3 ipython3 ipython3-notebook gettext  # python3-pip
+sudo apt-get install git python3 ipython3 ipython3-notebook gettext
 
 # Get the Poireau source
 git clone https://github.com/ewjoachim/poireau.git
@@ -13,9 +13,6 @@ git clone https://github.com/ewjoachim/poireau.git
 python3 -m venv --without-pip ~/Envs/poireau
 curl -L https://bootstrap.pypa.io/get-pip.py | ~/Envs/poireau/bin/python
 
-# activate the env
-source poireau/venv/bin/activate
-
 # Install the python requirements
 cd poireau/
-pip install -r requirements.txt
+~/Envs/poireau/bin/pip install -r requirements.txt
