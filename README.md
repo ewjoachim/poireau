@@ -32,6 +32,8 @@ If the content of the [Ubuntu Install script](scripts/ubuntu_install.sh) is OK f
     ./ubuntu_install.sh
     rm ubuntu_install.sh
 
+This script will install the system-wide dependencies, git-clone the repo, create a venv, install the python reqs in it, create the Database, add an user (you), prepare the static files for web access and the translations.
+
 Requirements
 ------------
 
@@ -39,12 +41,12 @@ Except Python 3 and the requirements listed in requirements.txt, the non-python 
 
  - Lilypond (lilypond and musicxml2ly executables) (for now, it's not used)
  - GetText for translations
+ - Ipython and Notebook if you want to try the project notebook (just for dev, and not mandatory)
 
 
 Installation
 ------------
-
-(You should probably be in a py3 virtualenv at this point)
+Once you have installed the non-python requirements above, git-clone'd the rep, created and activated a virtualenv :
 
 	# Install the python dependencies
     pip install -r requirements.txt
@@ -72,6 +74,7 @@ Via the Notebook :
 and open Poireau Notebook.
 
 Via the the views :
+
 	./manage.py runserver
 
 Launch the tests

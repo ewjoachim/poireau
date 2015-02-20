@@ -1,4 +1,7 @@
+#! /usr/bin/env sh
+
 # System-wide Dependecies and tools
+# You can probably install all these with homebrew on OSX
 sudo apt-get install git python3 python3-dev g++ gettext
 
 # Get the Poireau source
@@ -14,5 +17,18 @@ python3 -m venv --without-pip ~/Envs/poireau
 curl -L https://bootstrap.pypa.io/get-pip.py | ~/Envs/poireau/bin/python
 
 # Install the python requirements
-cd poireau/
 ~/Envs/poireau/bin/pip install -r requirements.txt
+
+cd poireau/
+
+# Create the database
+./manage.py migrate
+
+# create a superuser
+./manage.py createsuperuser
+
+# preparing the static files
+./manage.py collectstatic
+
+# preparing the translations
+./scripts/compilemessages.sh

@@ -116,17 +116,30 @@ Configure your database (for now with [sqlite3](http://www.sqlite.org/), which m
 
     ./manage.py migrate
 
+Once your base is created, with the User table, you'll probably want to have an user that can connect to the site. Create it with :
+
+    ./manage.py createsuperuser
+
+Another thing you'll need to try the project on the Web is for Django to prepare the static files (js, css, ...) :
+
+    ./manage.py collectstatic
+
+This command will copy all the static from various location to one dir, that will be accessed when using ```runserver``` (see below)
 
 Lilypond
 --------
 
-[Lylipond](http://www.lilypond.org/) is a LaTeX module for creating scores. It's a very powerful tool that can do a lot of things and, as of now, it's the best tool we've find to transform a musicxml file to PDF and sound file. As of now, lilypond notation is generated automatically so for now, there's no real need to learn the lilypond syntax, but it may prove helpful later. Though, you will need to have lilypond installed on your machine if you plan to work on the PDF or Music generation parts.
+[Lilypond](http://www.lilypond.org/) is a LaTeX module for creating scores. It's a very powerful tool that can do a lot of things and, as of now, it's the best tool we've find to transform a musicxml file to PDF and sound file. As of now, lilypond notation is generated automatically so for now, there's no real need to learn the lilypond syntax, but it may prove helpful later. Though, you will need to have lilypond installed on your machine if you plan to work on the PDF or Music generation parts.
 
 
 GetText
 -------
 
 [GetText](https://www.gnu.org/software/gettext/) is a standard opensource tool to manage internationalization. It's used by Django and you'll need to install it if you want to see the Poireau project in your language (and that language is not English)
+
+There's a script that compiles the translations in the script repo. Call it every time you have written new translations to test them. Note : the Git repository does not contain the compiled translations so you'll need to call this script once if you want to see translated text :
+
+    ./scripts/compilemessages.sh
 
 Trying it all
 =============
@@ -137,6 +150,11 @@ Now that you master all the tools, you can use it all to navigate to your local 
 
 You'll find a notebook (Poireau Notebook) that shows how to use some methods in the Django models.
 
+And try the project itself :
+
+    ./manage.py runserver
+
+And go to [http://localhost:8000](http://localhost:8000)
 
 Having fun
 ==========
