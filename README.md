@@ -54,10 +54,10 @@ Installation
     ./manage.py collectstatic
 
     # preparing the translations
-    ./script/compilemessages.sh
+    ./scripts/compilemessages.sh
 
     # create a superuser
-    ./manage.y createsuperuser
+    ./manage.py createsuperuser
 
 
 Try some features
