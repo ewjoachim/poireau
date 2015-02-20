@@ -16,10 +16,11 @@ git clone https://github.com/ewjoachim/poireau.git
 python3 -m venv --without-pip ~/Envs/poireau
 curl -L https://bootstrap.pypa.io/get-pip.py | ~/Envs/poireau/bin/python
 
+cd poireau/
 # Install the python requirements
 ~/Envs/poireau/bin/pip install -r requirements.txt
 
-cd poireau/
+source ~/Envs/poireau/bin/activate
 
 # Create the database
 ./manage.py migrate

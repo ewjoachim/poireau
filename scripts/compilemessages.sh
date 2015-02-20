@@ -2,7 +2,7 @@
 
 # Create the .mo files for translation
 
-# TODO : find out whil a simple
+# TODO : find out why a simple
 # ./manage.py compilemessages
 # does not work...
 
