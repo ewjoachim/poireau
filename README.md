@@ -95,6 +95,14 @@ Once translation is written, compile it with
 
     ./scripts/compilemessages.sh
 
+Project Settings
+----------------
+
+To specify the specific settings of your project, create a file at ```poireau/common/local_settings.py``` based on ```poireau/common/local_settings.py```. As long as you have not done so, you'll have a warning everytime you interact with the project.
+You can create an empty file at that location to get rid of the message.
+
+    poireau/common/local_settings.py not found or produced an ImportError. Default parameters used.
+
 
 How to discuss
 --------------
