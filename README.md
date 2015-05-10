@@ -110,6 +110,12 @@ How to discuss
 [Mailing List](https://groups.google.com/forum/?hl=fr#!forum/poireau)
 
 
+Changelog
+---------
+
+    [Available here](CHANGELOG.md)
+
+
 License
 -------
 

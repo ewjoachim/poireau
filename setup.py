@@ -1,26 +1,26 @@
 import os
 from setuptools import setup, find_packages
 
+NAME = "poireau"
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme_file:
+    README = readme_file.read()
+
+with open(os.path.join(os.path.dirname(__file__), 'version.txt')) as version_file:
+    VERSION = version_file.read().strip()
+
+with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as readme_file:
+    REQUIREMENTS = [line for line in readme_file.readlines() if line and not line.startswith(NAME)]
 
 setup(
-    name="poireau",
-    version="0.2.0",
+    name=NAME,
+    version=VERSION,
     author="Joachim Jablon",
     author_email="ewjoachim@gmail.com",
     description="A choir files management website.",
-    license="BSD",
+    license="MIT",
     keywords="choir django",
     packages=find_packages(exclude="research"),
-    long_description=read('README.md'),
-    install_requires=[
-        "Django==1.7.3",
-        "django-bootstrap3==5.0.3",
-        "django-extensions==1.4.9",
-        "django-debug-toolbar==1.2.2",
-        "sh==1.11",
-        "pytz==2014.10",
-    ],
+    long_description=README,
+    install_requires=REQUIREMENTS,
 )

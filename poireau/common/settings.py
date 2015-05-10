@@ -7,33 +7,53 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
-
-
-
 from django.utils.translation import ugettext_lazy as _
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+import dj_database_url
 
 COMMON_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(COMMON_DIR)
 
 
+def from_env(name, default=None, coerce=str):
+    """
+    Gets the environment variable with that name.
+    - returns default if not present (not casted).
+    - coerce is a callable that will be called on
+        the string value of the env var if provided.
+        Ususal coerce callables are int, bool, str, float etc.
+        (bool casting will consider as Truthy
+        "true", "1" and "yes" (case insensitive),
+        everything else will be false.)
+    """
+    value = os.environ.get(name, None)
+
+    if value is None:
+        return default
+
+    if coerce:
+        if coerce is bool:
+            coerce = lambda v: v.lower() in ("true", "1", "yes")
+        return coerce(value)
+
+    return value
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # Dev secret key. DO NOT go to production with this.
-DEFAULT_SECRET_KEY = 'r#)o^2osljpen358lu$iau5*ji14ip=^$1cj-2b1*mtt&s7is8'
-SECRET_KEY = DEFAULT_SECRET_KEY
+SECRET_KEY = from_env("SECRET_KEY", default='r#)o^2osljpen358lu$iau5*ji14ip=^$1cj-2b1*mtt&s7is8')
 
-DEBUG = True
+DEBUG = from_env("DEBUG", default=False, coerce=bool)
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = from_env("ALLOWED_HOSTS", default="").split(",")
 
 
-ADMINS = []
+ADMINS = [admin.split(":")[:2] for admin in from_env("ADMINS", default="").split(",")]
 MANAGERS = ADMINS
 
 # Application definition
@@ -71,10 +91,7 @@ WSGI_APPLICATION = 'poireau.common.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config()
 }
 
 # Internationalization
@@ -124,15 +141,11 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 
 # Application settings
-SONGS_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
-CHOIR_NAME = "Choir"
+DEFAULT_SONG_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
+SONGS_FOLDER = from_env("SONGS_FOLDER", default=DEFAULT_SONG_FOLDER)
+CHOIR_NAME = from_env("CHOIR_NAME", default="Choir")
 
 
 # Security
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
-
-try:
-    from .local_settings import *
-except ImportError:
-    print("poireau/common/local_settings.py not found or produced an ImportError. Default parameters used.")
