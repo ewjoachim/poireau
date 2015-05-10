@@ -1,0 +1,5 @@
+# Developers local requirements
+
+-r base.txt
+
+ipython[all]

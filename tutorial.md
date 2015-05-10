@@ -84,7 +84,7 @@ Note that once you are in a python3 venv, whatever your system ```python``` is, 
 
 After making sure the virtualenv is activated, install all the depencies for the project by doing
 
-    pip install -r requirements.txt
+    pip install -r requirements/base.txt
 
 
 IPython
@@ -101,6 +101,10 @@ Another way is to install it via pip, system wide or just in your environment :
     [sudo] pip install "ipython[all]"
 
 but it assumes you have the correct libraries installed for compilation.
+
+Third way, which is like the second way : use the requirements file for local development :
+
+    pip install -r requirements/development.txt
 
 If you have any doubts, check the [installation instructions](http://ipython.org/ipython-doc/2/install/install.html).
 
@@ -140,6 +144,7 @@ GetText
 There's a script that compiles the translations in the script repo. Call it every time you have written new translations to test them. Note : the Git repository does not contain the compiled translations so you'll need to call this script once if you want to see translated text :
 
     ./scripts/compilemessages.sh
+
 
 Trying it all
 =============

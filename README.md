@@ -16,7 +16,7 @@ Poireau is in "not even alpha state" for now. It still has to go under heavy dev
 How to use the project if you're not used to working with Python3/Django projects
 =================================================================================
 
-You will find details instructions [here](tutorial.md) on how to understand the project if you're not yet used to Python3/Django development.
+You will find details instructions [here](TUTORIAL.md) on how to understand the project if you're not yet used to Python3/Django development.
 
 
 How to use the project if you're used to working with Python3/Django projects
@@ -49,7 +49,7 @@ Installation
 Once you have installed the non-python requirements above, git-clone'd the rep, created and activated a virtualenv :
 
 	# Install the python dependencies
-    pip install -r requirements.txt
+    pip install -r requirements/development.txt
 
     # Create the database
     ./manage.py migrate
@@ -113,7 +113,7 @@ How to discuss
 Changelog
 ---------
 
-    [Available here](CHANGELOG.md)
+[Available here](CHANGELOG.md)
 
 
 License

@@ -1,2 +1,0 @@
-ipython[all]
--r requirements.txt

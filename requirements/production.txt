@@ -1,0 +1,5 @@
+# Production requirements
+
+-r base.txt
+
+psycopg2==2.6
