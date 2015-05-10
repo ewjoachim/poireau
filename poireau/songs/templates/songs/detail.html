@@ -14,6 +14,10 @@
 						<strong>{{ name }}</strong> starts with <strong>{{ note }}</strong>
 					{% endblocktrans %}
 				</li>
+			{% empty %}
+				<li class="list-group-item">
+					{% trans "No parts found in the file (or the file can't be found ?)" %}
+				</li>
 			{% endfor %}
 		</ul>
 	</div>

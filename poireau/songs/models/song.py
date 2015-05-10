@@ -49,6 +49,8 @@ class Song(models.Model):
             return os.path.join(self.path, xml)
         except StopIteration:
             raise ValueError("XML file not found !")
+        except FileNotFoundError:
+            raise ValueError("Can't open folder !")
 
     def __unicode__(self):
         return self.name
@@ -158,8 +160,11 @@ class Song(models.Model):
     @cached_property
     def xml_parts(self):
         parts = list(self.parts.all())
-        for part in parts:
-            part.load_xml(self.parsed_xml)
+        try:
+            for part in parts:
+                part.load_xml(self.parsed_xml)
+        except ValueError:
+            return []
 
         return parts
 
