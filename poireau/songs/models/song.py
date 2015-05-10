@@ -52,7 +52,7 @@ class Song(models.Model):
         except FileNotFoundError:
             raise ValueError("Can't open folder !")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def create_id_file(self):

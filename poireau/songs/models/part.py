@@ -18,7 +18,7 @@ class Part(models.Model):
         blank=True, null=True
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta(object):
@@ -153,7 +153,7 @@ class Note(object):
         self.octave = octave
         self.alter = alter
 
-    def __unicode__(self):
+    def __str__(self):
         return " ".join(str_part for str_part in [
             {
                 "A": ugettext("A"), "B": ugettext("B"), "C": ugettext("C"), "D": ugettext("D"),

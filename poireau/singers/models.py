@@ -12,7 +12,7 @@ class Singer(models.Model):
     main_section = models.ForeignKey("singers.Section", verbose_name=_("Main Section"))
     roles = models.ManyToManyField("songs.Part", related_name='singers', verbose_name=_("Roles"))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
     class Meta(object):
@@ -24,7 +24,7 @@ class Singer(models.Model):
 class Section(models.Model):
     name = models.CharField(max_length=64, verbose_name=_("Name"), unique=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta(object):
