@@ -3,3 +3,4 @@
 -r base.txt
 
 psycopg2==2.6
+django-toolbelt==0.0.1
