@@ -149,3 +149,10 @@ CHOIR_NAME = from_env("CHOIR_NAME", default="Choir")
 # Security
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
+
+
+EMAIL_HOST = from_env("EMAIL_HOST", default=from_env("POSTMARK_SMTP_SERVER", default="localhost"))
+EMAIL_HOST_USER = from_env("EMAIL_HOST_USER", default=from_env("POSTMARK_API_TOKEN", default=""))
+EMAIL_HOST_PASSWORD = from_env("EMAIL_HOST_PASSWORD", default=from_env("POSTMARK_API_TOKEN", default=""))
+EMAIL_USE_TLS = from_env("EMAIL_USE_TLS", default=False, coerce=bool)
+EMAIL_PORT = from_env("EMAIL_PORT", default=25 if not EMAIL_USE_TLS else 587, coerce=int)
