@@ -1,5 +1,6 @@
 import os
 from setuptools import setup, find_packages
+from pip import download, req
 
 NAME = "poireau"
 
@@ -9,8 +10,10 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme_file:
 with open(os.path.join(os.path.dirname(__file__), 'version.txt')) as version_file:
     VERSION = version_file.read().strip()
 
-with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as readme_file:
-    REQUIREMENTS = [line for line in readme_file.readlines() if line and not line.startswith(NAME)]
+REQUIREMENTS = [
+    requirement
+    for requirement in req.parse_requirements("requirements.txt", session=download.PipSession())
+]
 
 setup(
     name=NAME,
