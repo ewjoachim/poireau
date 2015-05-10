@@ -157,3 +157,4 @@ EMAIL_HOST_PASSWORD = from_env("EMAIL_HOST_PASSWORD", default=from_env("POSTMARK
 EMAIL_USE_TLS = from_env("EMAIL_USE_TLS", default=False, coerce=bool)
 EMAIL_PORT = from_env("EMAIL_PORT", default=25 if not EMAIL_USE_TLS else 587, coerce=int)
 DEFAULT_FROM_EMAIL = from_env("DEFAULT_FROM_EMAIL", "webmaster@localhost")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
