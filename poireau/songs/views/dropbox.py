@@ -56,3 +56,16 @@ class DropboxFinishView(BaseLoggedViewMixin, DropboxMixin, View):
         self.request.session["dropbox_access_token"] = access_token
 
         return http.HttpResponseRedirect(reverse("songs:song_discover"))
+
+
+class DropboxTokenMixin(object):
+
+    class NoToken(Exception):
+        pass
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            self.dropbox_access_token = request.session["dropbox_access_token"]
+        except KeyError:
+            return http.HttpResponseRedirect(reverse("songs:dropbox_start"))
+        return super(DropboxTokenMixin, self).dispatch(request, *args, **kwargs)

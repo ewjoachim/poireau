@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse_lazy as reverse
 
 from poireau.common.views import BaseLoggedViewMixin
 from poireau.songs.models import Song
+from poireau.songs.views.dropbox import DropboxTokenMixin
 
 from ..forms import DropboxFolderChoice
 
@@ -37,25 +38,11 @@ class SongRandomView(SongMixin, View):
             return http.HttpResponseRedirect(reverse("songs:song_list"))
 
 
-class SongDiscoverView(SongMixin, FormView):
+class SongDiscoverView(DropboxTokenMixin, SongMixin, FormView):
     template_name = "songs/discover.html"
     form_class = DropboxFolderChoice
 
-    class NoToken(Exception):
-        pass
-
     def get_form_kwargs(self):
         kwargs = super(SongDiscoverView, self).get_form_kwargs()
-        try:
-            kwargs.update({
-                "dropbox_access_token": self.request.session["dropbox_access_token"]
-            })
-        except KeyError:
-            raise self.NoToken()
+        kwargs.update({"dropbox_access_token": self.dropbox_access_token})
         return kwargs
-
-    def get(self, request):
-        try:
-            return super(SongDiscoverView, self).get(request)
-        except self.NoToken:
-            return http.HttpResponseRedirect(reverse("songs:dropbox_start"))
