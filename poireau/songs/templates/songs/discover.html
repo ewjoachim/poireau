@@ -1,0 +1,13 @@
+{% extends "base/logged_base.html" %}
+{% load i18n bootstrap3 staticfiles %}
+
+{% block page_title %}{% trans "Discover new songs" %} - {% endblock page_title %}
+
+{% block content %}
+	<div class="row">
+		<form method="POST">
+			{% csrf_token %}
+			{% bootstrap_form form %}
+		</form>
+	</div>
+{% endblock content %}
