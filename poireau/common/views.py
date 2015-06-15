@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.conf import settings
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, RedirectView
 from django.contrib.auth import views as django_auth_views
+from django.core.urlresolvers import reverse_lazy as reverse
 
 
 class BaseViewMixin(object):
@@ -24,9 +25,11 @@ class BaseLoggedViewMixin(BaseViewMixin, LoginRequiredMixin):
     pass
 
 
-class HomeView(BaseLoggedViewMixin, TemplateView):
+class HomeView(BaseLoggedViewMixin, RedirectView):
     template_name = "base/home.html"
     menu_list = ["home"]
+    url = reverse("songs:song_list")
+    permanent = False
 
 
 class LoginView(BaseViewMixin, TemplateView):
