@@ -4,4 +4,3 @@
 
 psycopg2==2.6
 django-toolbelt==0.0.1
-dropbox-py3==2.2.3
