@@ -1,14 +1,16 @@
 
 
-from django.views.generic import View, ListView, DetailView, FormView
+from django.views.generic import View, ListView, DetailView, FormView, TemplateView
 from django import http
 from django.core.urlresolvers import reverse_lazy as reverse
+from django.conf import settings
 
 from poireau.common.views import BaseLoggedViewMixin
 from poireau.songs.models import Song
-from poireau.songs.views.dropbox import DropboxTokenMixin
+from poireau.songs.views.dropbox import DropboxTokenMixin, DROPBOX_TOKEN_SESSION_KEY
 
-from ..forms import DropboxFolderChoice
+from ..forms import FolderChoice
+from ..utils import DropboxFolderExplorer, ServerFolderExplorer
 
 
 class SongMixin(BaseLoggedViewMixin):
@@ -38,11 +40,58 @@ class SongRandomView(SongMixin, View):
             return http.HttpResponseRedirect(reverse("songs:song_list"))
 
 
-class SongDiscoverView(DropboxTokenMixin, SongMixin, FormView):
-    template_name = "songs/discover.html"
-    form_class = DropboxFolderChoice
+class ChooseFolderView(SongMixin, FormView):
+    template_name = "base/form.html"
+    form_class = FolderChoice
+    mode = None
 
     def get_form_kwargs(self):
-        kwargs = super(SongDiscoverView, self).get_form_kwargs()
-        kwargs.update({"dropbox_access_token": self.dropbox_access_token})
+        kwargs = super(ChooseFolderView, self).get_form_kwargs()
+        kwargs["explorer"] = self.get_folder_lister()
+
         return kwargs
+
+    def form_valid(self, form):
+        self.request.session["DISCOVER"] = {
+            "mode": self.mode,
+            "folder": form.cleaned_data["folder"]
+        }
+        return super(ChooseFolderView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse("songs:songs_compare")
+
+
+class ChooseDropboxFolderView(DropboxTokenMixin, ChooseFolderView):
+    mode = "DROPBOX"
+
+    def get_folder_lister(self):
+        return DropboxFolderExplorer(self.dropbox_access_token)
+
+
+class ChooseServerFolderView(ChooseFolderView):
+    mode = "SERVER"
+
+    def get_folder_lister(self):
+        return ServerFolderExplorer()
+
+
+class SongCompareView(SongMixin, TemplateView):
+    template_name = "songs/compare.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(SongCompareView, self).get_context_data(**kwargs)
+
+        mode = self.request.session["DISCOVER"]["mode"]
+
+        if mode == "SERVER":
+            explorer = ServerFolderExplorer()
+        elif mode == "DROPBOX":
+            explorer = DropboxFolderExplorer(self.request.session[DROPBOX_TOKEN_SESSION_KEY])
+        else:
+            return context
+
+        context["base_folder"] = self.request.session["DISCOVER"]["folder"]
+        context["songs"] = explorer.get_songs(self.request.session["DISCOVER"]["folder"])
+
+        return context
