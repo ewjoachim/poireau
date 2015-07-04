@@ -69,6 +69,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'poireau.songs',
     'poireau.singers',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -158,3 +159,7 @@ EMAIL_USE_TLS = from_env("EMAIL_USE_TLS", default=False, coerce=bool)
 EMAIL_PORT = from_env("EMAIL_PORT", default=25 if not EMAIL_USE_TLS else 587, coerce=int)
 DEFAULT_FROM_EMAIL = from_env("DEFAULT_FROM_EMAIL", "webmaster@localhost")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+# Dropbox
+DROPBOX_APP_KEY = from_env("DROPBOX_APP_KEY")
+DROPBOX_APP_SECRET = from_env("DROPBOX_APP_SECRET")
