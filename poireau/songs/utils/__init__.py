@@ -23,11 +23,11 @@ class FolderExplorer(object):
             yield os.path.join(path, dir_name)
 
     def get_songs(self, folder):
-        return [
+        return sorted([
             dir_path
             for dir_path, __, file_names in self.walk(folder)
             if any(file_name.endswith(".xml") for file_name in file_names)
-        ]
+        ])
 
 
 class ServerFolderExplorer(FolderExplorer):
