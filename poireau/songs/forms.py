@@ -13,7 +13,7 @@ class FolderChoice(forms.Form):
     def __init__(self, explorer, *args, **kwargs):
         super(FolderChoice, self).__init__(*args, **kwargs)
 
-        self.fields["folder"].choices = [
+        self.fields["folder"].choices = sorted([
             (dir_path, os.path.basename(dir_path) or _("Top level directory"))
             for dir_path in explorer.get_dirs()
-        ]
+        ])
