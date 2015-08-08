@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 class Singer(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_("Member"))
     main_section = models.ForeignKey("singers.Section", verbose_name=_("Main Section"))
-    roles = models.ManyToManyField("songs.Part", related_name='singers', verbose_name=_("Roles"))
+    roles = models.ManyToManyField("songs.Part", related_name='singers', verbose_name=_("Roles"), blank=True)
 
     def __str__(self):
         return self.user.username
