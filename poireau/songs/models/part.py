@@ -19,7 +19,7 @@ class Part(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return "{} - {}".format(self.song.name, self.name)
 
     class Meta(object):
         app_label = "songs"
