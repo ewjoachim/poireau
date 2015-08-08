@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from io import StringIO
+from io import BytesIO
 from xml.etree import ElementTree as ET
 # import tempfile
 # import shutil
@@ -196,7 +196,7 @@ class Song(models.Model):
         Will export the current state of the xml file to pdf (score) and midi.
         This method is still in debug state.
         """
-        output = StringIO()
+        output = BytesIO()
         self.parsed_xml.write(output)
 
         # dir_path = tempfile.mkdtemp()
@@ -216,3 +216,4 @@ class Song(models.Model):
         finally:
             os.chdir(old_dir)
             # shutil.rmtree(dir_path)
+
