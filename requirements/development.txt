@@ -2,4 +2,4 @@
 
 -r base.txt
 
-ipython[all]
+ipython[all]==3.2.1
