@@ -2,8 +2,8 @@
 
 # System-wide Dependecies and tools
 # You can probably install all these with homebrew on OSX
-echo "sudo apt-get install git python3 python3-dev g++ gettext"
-sudo apt-get install git python3 python3-dev g++ gettext
+echo "sudo apt-get install git python3 python3-dev g++ gettext libpq-dev"
+sudo apt-get install git python3 python3-dev g++ gettext libpq-dev
 
 # Get the Poireau source
 git clone https://github.com/ewjoachim/poireau.git
