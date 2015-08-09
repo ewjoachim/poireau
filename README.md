@@ -13,6 +13,8 @@ How is Poireau as of now ?
 
 Poireau is in "not even alpha state" for now. It still has to go under heavy development before being ready for anything serious.
 
+[![Requirements Status](https://requires.io/github/ewjoachim/poireau/requirements.svg?branch=master)](https://requires.io/github/ewjoachim/poireau/requirements/?branch=master)
+
 How to use the project if you're not used to working with Python3/Django projects
 =================================================================================
 
