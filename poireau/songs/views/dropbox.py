@@ -56,7 +56,9 @@ class DropboxFinishView(BaseLoggedViewMixin, DropboxMixin, View):
             LOGGER.error("Auth error: {}".format(exc))
             return http.HttpResponseForbidden()
 
-        self.request.session[DROPBOX_TOKEN_SESSION_KEY] = access_token
+        request.session[DROPBOX_TOKEN_SESSION_KEY] = access_token
+        request.user.dropbox_token = access_token
+        request.user.save()
 
         return http.HttpResponseRedirect(reverse("songs:songs_choose_folder_dropbox"))
 
@@ -67,8 +69,16 @@ class DropboxTokenMixin(object):
         pass
 
     def dispatch(self, request, *args, **kwargs):
+        self.dropbox_access_token = ""
         try:
             self.dropbox_access_token = request.session[DROPBOX_TOKEN_SESSION_KEY]
         except KeyError:
+            pass
+
+        if not self.dropbox_access_token:
+            self.dropbox_access_token = request.user.dropbox_token
+
+        if self.dropbox_access_token:
+            return super(DropboxTokenMixin, self).dispatch(request, *args, **kwargs)
+        else:
             return http.HttpResponseRedirect(reverse("songs:dropbox_start"))
-        return super(DropboxTokenMixin, self).dispatch(request, *args, **kwargs)
