@@ -4,10 +4,16 @@
 {% block page_title %}{% trans "Compare songs" %} - {% endblock page_title %}
 
 {% block content %}
-	<h3>{{base_folder}}</h3>
+	<h3>{% trans "New songs" %}</h3>
 	<ul>
-		{% for song in songs %}
-			<li>{{song}}</li>
+		{% for song in appeared %}
+			<li>{{ song }}</li>
+		{% endfor %}
+	</ul>
+	<h3>{% trans "Removed songs" %}</h3>
+	<ul>
+		{% for song in disappeared %}
+			<li>{{ song }}</li>
 		{% endfor %}
 	</ul>
 {% endblock content %}

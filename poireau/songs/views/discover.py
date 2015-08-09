@@ -1,43 +1,12 @@
-
-
-from django.views.generic import View, ListView, DetailView, FormView, TemplateView
-from django import http
+from django.views.generic import FormView, TemplateView
 from django.core.urlresolvers import reverse_lazy as reverse
-from django.conf import settings
-
-from poireau.common.views import BaseLoggedViewMixin
-from poireau.songs.models import Song
-from poireau.songs.views.dropbox import DropboxTokenMixin, DROPBOX_TOKEN_SESSION_KEY
+from django.apps import apps
 
 from ..forms import FolderChoice
-from ..utils import DropboxFolderExplorer, ServerFolderExplorer
+from ..utils.explorer import DropboxExplorer, ServerExplorer
 
-
-class SongMixin(BaseLoggedViewMixin):
-    model = Song
-
-
-class SongListView(SongMixin, ListView):
-    template_name = "songs/list.html"
-    menu_list = ["songs"]
-
-    def get_queryset(self):
-        return super(SongListView, self).get_queryset().order_by("path")
-
-
-class SongDetailView(SongMixin, DetailView):
-    template_name = "songs/detail.html"
-    menu_list = ["songs"]
-
-
-class SongRandomView(SongMixin, View):
-
-    def get(self, request):
-        song = Song.objects.order_by("?").first()
-        if song:
-            return http.HttpResponseRedirect(song.get_absolute_url())
-        else:
-            return http.HttpResponseRedirect(reverse("songs:song_list"))
+from .dropbox import DropboxTokenMixin, DROPBOX_TOKEN_SESSION_KEY
+from .song import SongMixin
 
 
 class ChooseFolderView(SongMixin, FormView):
@@ -66,14 +35,14 @@ class ChooseDropboxFolderView(DropboxTokenMixin, ChooseFolderView):
     mode = "DROPBOX"
 
     def get_folder_lister(self):
-        return DropboxFolderExplorer(self.dropbox_access_token)
+        return DropboxExplorer(self.dropbox_access_token)
 
 
 class ChooseServerFolderView(ChooseFolderView):
     mode = "SERVER"
 
     def get_folder_lister(self):
-        return ServerFolderExplorer()
+        return ServerExplorer()
 
 
 class SongCompareView(SongMixin, TemplateView):
@@ -85,13 +54,22 @@ class SongCompareView(SongMixin, TemplateView):
         mode = self.request.session["DISCOVER"]["mode"]
 
         if mode == "SERVER":
-            explorer = ServerFolderExplorer()
+            explorer = ServerExplorer()
         elif mode == "DROPBOX":
-            explorer = DropboxFolderExplorer(self.request.session[DROPBOX_TOKEN_SESSION_KEY])
+            explorer = DropboxExplorer(self.request.session[DROPBOX_TOKEN_SESSION_KEY])
         else:
             return context
 
         context["base_folder"] = self.request.session["DISCOVER"]["folder"]
-        context["songs"] = explorer.get_songs(self.request.session["DISCOVER"]["folder"])
+        found_songs = explorer.get_songs(self.request.session["DISCOVER"]["folder"])
+
+        Song = apps.get_model("songs.Song")
+        reference_songs = Song.objects.all()
+        present_in_both, appeared, disappeared = Song.compare_sets(reference_songs, found_songs)
+        context.update({
+            "present_in_both": present_in_both,
+            "appeared": appeared,
+            "disappeared": disappeared,
+        })
 
         return context

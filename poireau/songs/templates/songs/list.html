@@ -9,7 +9,7 @@
 	 <a class='btn btn-success pull-right' href="{% url 'songs:songs_choose_folder_server' %}"><i class="fa fa-server"></i> {% trans "Songs on the Server" %}</a>
 	{% regroup object_list by folder as folder_list %}
 	{% for folder in folder_list %}
-		<h3>{{folder.grouper|default:_("Main")|title}} :</h3>
+		<h3>{{folder.grouper}} :</h3>
 		<div class="row">
 		{% for song in folder.list %}
 			{% if forloop.counter0|divisibleby:"3" and forloop.counter0 > 0 %}

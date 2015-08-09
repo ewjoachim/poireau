@@ -76,7 +76,7 @@ class DropboxTokenMixin(object):
             pass
 
         if not self.dropbox_access_token:
-            self.dropbox_access_token = request.user.dropbox_token
+            self.dropbox_access_token = request.session[DROPBOX_TOKEN_SESSION_KEY] = request.user.dropbox_token
 
         if self.dropbox_access_token:
             return super(DropboxTokenMixin, self).dispatch(request, *args, **kwargs)
