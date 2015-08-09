@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'bootstrap3',
+    'poireau.users',
     'poireau.songs',
     'poireau.singers',
     'debug_toolbar',
@@ -140,6 +141,7 @@ STATICFILES_DIRS = (
 # Auth
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
+AUTH_USER_MODEL = 'users.User'
 
 # Application settings
 DEFAULT_SONG_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
