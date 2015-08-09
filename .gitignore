@@ -10,3 +10,4 @@ output.midi
 *.pyc
 
 poireau/common/local_settings.py
+.env

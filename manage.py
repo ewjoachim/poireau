@@ -9,20 +9,27 @@ def read_env():
     environment variables from a .env file located in the caller's working
     directory.
     """
+    content = []
+
+    with open('.env.default') as file_handler:
+        content += file_handler.readlines()
+
     try:
         with open('.env') as file_handler:
-            content = file_handler.read()
+            content += file_handler.readlines()
     except IOError:
-        content = ''
+        print("You have not updated your settings by using a '.env' file. Defaults will be used.")
 
-    for line in content.splitlines():
+    env_dict = {}
+    for line in content:
         match = re.match(r'^([A-Za-z_0-9]+)=(.*)$', line)
         if not match:
             continue
 
         key, val = match.group(1), match.group(2)
+        env_dict[key] = val
 
-        os.environ.setdefault(key, val)
+    os.environ.update(env_dict)
 
 
 if __name__ == "__main__":

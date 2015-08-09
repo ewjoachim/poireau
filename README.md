@@ -63,6 +63,14 @@ Once you have installed the non-python requirements above, git-clone'd the rep, 
     # create a superuser
     ./manage.py createsuperuser
 
+Parameters
+----------
+
+Most parameters can be set in the Environment variables. To ease development,
+local server (``manage.py runserver``) automatically sets the content of ``.env.default``
+and ``.env``as environment variables. The ``.env`` file is not tracked so you can safely
+put your passwords and API keys in there if necessary.
+
 
 Try some features
 -----------------
