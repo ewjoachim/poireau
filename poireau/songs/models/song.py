@@ -6,6 +6,7 @@ from xml.etree import ElementTree as ET
 # import tempfile
 # import shutil
 
+from django.apps import apps
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -62,9 +63,9 @@ class Song(models.Model):
             id_file.write("{}".format(self.id))
 
     def create_parts(self):
-        Part = models.get_model("songs", "Part")
+        Part = apps.get_model("songs", "Part")
         parts = Part.parts_from_xml(xml_tree=self.parsed_xml, song=self)
-        sections = {section.name: section for section in models.get_model("singers", "Section").objects.all()}
+        sections = {section.name: section for section in apps.get_model("singers", "Section").objects.all()}
         for part in parts:
             part.section = sections.get(part.name, None)
 

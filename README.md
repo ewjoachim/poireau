@@ -1,3 +1,5 @@
+[![Requirements Status](https://requires.io/github/ewjoachim/poireau/requirements.svg?branch=master)](https://requires.io/github/ewjoachim/poireau/requirements/?branch=master)
+
 # Pool Of Intelligent Records Effortlessly Auto-generated for Usability (POIREAU)
 
 This project aims at creating an internal website to ease file management and song learning between all the members of a choir. It mainly uses Python 3, Django, Bootstrap.
@@ -12,6 +14,7 @@ How is Poireau as of now ?
 ==========================
 
 Poireau is in "not even alpha state" for now. It still has to go under heavy development before being ready for anything serious.
+
 
 How to use the project if you're not used to working with Python3/Django projects
 =================================================================================
@@ -62,6 +65,14 @@ Once you have installed the non-python requirements above, git-clone'd the rep, 
 
     # create a superuser
     ./manage.py createsuperuser
+
+Parameters
+----------
+
+Most parameters can be set in the Environment variables. To ease development,
+local server (``manage.py runserver``) automatically sets the content of ``.env.default``
+and ``.env``as environment variables. The ``.env`` file is not tracked so you can safely
+put your passwords and API keys in there if necessary.
 
 
 Try some features

@@ -9,6 +9,7 @@
  - A Singer can now be assigned no role in the Admin
  - Parts display nicely with their part name
  - Export works again after Python 3
+ - Improved the Env loading system
 
 0.3.0
 =====
