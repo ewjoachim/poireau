@@ -51,17 +51,32 @@ class XmlSong(object):
         return self.title
 
     @classmethod
-    def compare_sets(cls, reference_songs, found_songs, mapping=None):
+    def compare_sets(cls, reference_songs, found_songs):
         reference_songs = set(reference_songs)
         found_songs = set(found_songs)
-        present_in_both = reference_songs & found_songs
+        counter = itertools.count(1)
+        for song in found_songs:
+            song.tmp_id = next(counter)
         disappeared = reference_songs - found_songs
         appeared = found_songs - reference_songs
-        if mapping:
-            disappeared -= set(mapping.keys())
-            appeared -= set(mapping.values())
+        disappeared_by_title = {
+            song.title: song
+            for song in disappeared
+        }
+        appeared_by_title = {
+            song.title: song
+            for song in appeared
+        }
 
-        return present_in_both, appeared, disappeared
+        common_names = set(appeared_by_title) & set(disappeared_by_title)
+        updated = {
+            disappeared_by_title[title]: appeared_by_title[title]
+            for title in common_names
+        }
+        disappeared -= set(updated.values())
+        appeared -= set(updated.values())
+
+        return appeared, disappeared, updated
 
 
 class FoundSong(XmlSong):

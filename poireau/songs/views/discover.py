@@ -1,75 +1,86 @@
-from django.views.generic import FormView, TemplateView
+import os
+
+import dropbox
+
+from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy as reverse
 from django.apps import apps
+from django.conf import settings
 
-from ..forms import FolderChoice
-from ..utils.explorer import DropboxExplorer, ServerExplorer
+from poireau.dropbox_sync.models import FolderSync
 
-from .dropbox import DropboxTokenMixin, DROPBOX_TOKEN_SESSION_KEY
+from ..forms import FolderChoice, DiscoverForm
+
+from ..utils.xml_song import FoundSong
+from .dropbox_utils import DropboxTokenMixin
 from .song import SongMixin
 
 
-class ChooseFolderView(SongMixin, FormView):
+class ChooseDropboxFolderView(DropboxTokenMixin, SongMixin, FormView):
     template_name = "base/form.html"
     form_class = FolderChoice
     mode = None
 
     def get_form_kwargs(self):
-        kwargs = super(ChooseFolderView, self).get_form_kwargs()
-        kwargs["explorer"] = self.get_folder_lister()
+        kwargs = super(ChooseDropboxFolderView, self).get_form_kwargs()
+        self.client = dropbox.Dropbox(self.dropbox_access_token)
+        entries = self.client.files_list_folder('/', recursive=False).entries
+        kwargs["folders"] = [entry.name for entry in entries if isinstance(entry, dropbox.FolderMetaData)]
 
         return kwargs
 
     def form_valid(self, form):
-        self.request.session["DISCOVER"] = {
-            "mode": self.mode,
-            "folder": form.cleaned_data["folder"]
-        }
-        return super(ChooseFolderView, self).form_valid(form)
+        FolderSync.sync_folder(
+            dropbox_client=self.client,
+            local_base_dir=settings.SONGS_FOLDER,
+            dropbox_path="/" + form.cleaned_data["folder"]
+        )
+        self.success_url = reverse("songs:songs_compare", kwargs={"folder": form.cleaned_data["folder"]})
 
-    def get_success_url(self):
-        return reverse("songs:songs_compare")
-
-
-class ChooseDropboxFolderView(DropboxTokenMixin, ChooseFolderView):
-    mode = "DROPBOX"
-
-    def get_folder_lister(self):
-        return DropboxExplorer(self.dropbox_access_token)
+        return super(ChooseDropboxFolderView, self).form_valid(form)
 
 
-class ChooseServerFolderView(ChooseFolderView):
-    mode = "SERVER"
-
-    def get_folder_lister(self):
-        return ServerExplorer()
-
-
-class SongCompareView(SongMixin, TemplateView):
+class SongCompareView(SongMixin, FormView):
     template_name = "songs/compare.html"
+    form_class = DiscoverForm
+
+    @property
+    def songs(self):
+        if hasattr(self, "_songs"):
+            return self._songs
+        elif "songs" in self.request.session["DISCOVER"]:
+            self._songs = self.request.session["DISCOVER"]["songs"]
+        else:
+            folder = self.kwargs["folder"]
+            songs = [
+                FoundSong(os.path.join(self.base_folder, folder, dir_path), file_name, self)
+                for dir_path, __, file_names in os.walk(folder)
+                for file_name in file_names
+                if file_name.endswith(".xml")
+            ]
+            found_songs = self.kwargs[folder]
+
+            Song = apps.get_model("songs.Song")
+            reference_songs = Song.objects.all()
+            appeared, disappeared, updated = Song.compare_sets(reference_songs, found_songs)
+            songs = {
+                "appeared": appeared,
+                "disappeared": disappeared,
+                "updated": updated,
+            }
+            self._songs = songs
+            self.request.session["DISCOVER"]["songs"] = songs
+
+        return self._songs
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["songs"] = self.songs
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super(SongCompareView, self).get_context_data(**kwargs)
-
-        mode = self.request.session["DISCOVER"]["mode"]
-
-        if mode == "SERVER":
-            explorer = ServerExplorer()
-        elif mode == "DROPBOX":
-            explorer = DropboxExplorer(self.request.session[DROPBOX_TOKEN_SESSION_KEY])
-        else:
-            return context
-
         context["base_folder"] = self.request.session["DISCOVER"]["folder"]
-        found_songs = explorer.get_songs(self.request.session["DISCOVER"]["folder"])
-
-        Song = apps.get_model("songs.Song")
-        reference_songs = Song.objects.all()
-        present_in_both, appeared, disappeared = Song.compare_sets(reference_songs, found_songs)
-        context.update({
-            "present_in_both": present_in_both,
-            "appeared": appeared,
-            "disappeared": disappeared,
-        })
+        context.update(self.songs)
 
         return context
