@@ -70,6 +70,7 @@ INSTALLED_APPS = (
     'poireau.users',
     'poireau.songs',
     'poireau.singers',
+    'poireau.dropbox_sync',
     'debug_toolbar',
 )
 
@@ -144,7 +145,7 @@ LOGIN_REDIRECT_URL = "home"
 AUTH_USER_MODEL = 'users.User'
 
 # Application settings
-DEFAULT_SONG_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "songs", "test_songs"))
+DEFAULT_SONG_FOLDER = os.path.normpath(os.path.join(BASE_DIR, "..", "test_songs"))
 SONGS_FOLDER = from_env("SONGS_FOLDER", default=DEFAULT_SONG_FOLDER)
 CHOIR_NAME = from_env("CHOIR_NAME", default="Choir")
 
