@@ -44,6 +44,11 @@ class Song(XmlSong, models.Model):
             model_part = part.to_model_part()
             self.parts.add(model_part)
 
+    def update_from(self, song):
+        self.xml_content = song.get_file_content()
+        self.path = song.dir_path
+        self.name = song.title
+
     def __str__(self):
         return self.name
 

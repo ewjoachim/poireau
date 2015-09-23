@@ -18,7 +18,7 @@ DROPBOX_TOKEN_SESSION_KEY = "dropbox_access_token"
 
 class DropboxMixin(object):
     def get_dropbox_auth_flow(self):
-        redirect_uri = self.request.build_absolute_uri(reverse("songs:dropbox_finish"))
+        redirect_uri = self.request.build_absolute_uri(reverse("dropbox_sync:dropbox_finish"))
         return DropboxOAuth2Flow(settings.DROPBOX_APP_KEY, settings.DROPBOX_APP_SECRET, redirect_uri,
                                  self.request.session, "dropbox-auth-csrf-token")
 
@@ -42,7 +42,7 @@ class DropboxFinishView(BaseLoggedViewMixin, DropboxMixin, View):
 
         except DropboxOAuth2Flow.BadStateException as exc:
             # Start the auth flow again.
-            return http.HttpResponseRedirect(reverse("songs:dropbox_start"))
+            return http.HttpResponseRedirect(reverse("dropbox_sync:dropbox_start"))
 
         except DropboxOAuth2Flow.CsrfException as exc:
             LOGGER.error("CSRF error: {}".format(exc))
@@ -60,6 +60,7 @@ class DropboxFinishView(BaseLoggedViewMixin, DropboxMixin, View):
         request.user.dropbox_token = access_token
         request.user.save()
 
+        # This shouldn't be hardcoded !
         return http.HttpResponseRedirect(reverse("songs:songs_choose_folder_dropbox"))
 
 

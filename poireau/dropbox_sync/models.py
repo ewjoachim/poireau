@@ -1,11 +1,13 @@
 import os
-import shutil
+import contextlib
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 import dropbox
+
+from poireau.common.utils import FilesManager
 
 
 class FolderSync(models.Model):
@@ -20,11 +22,13 @@ class FolderSync(models.Model):
         verbose_name_plural = _("Folder Syncs")
 
     @classmethod
-    def sync_folder(cls, dropbox_client, local_base_dir, dropbox_path):
+    def sync_folder(cls, dropbox_client, local_base_dir, dropbox_path, files_manager=None):
+        files_manager = files_manager or FilesManager()
+
         dbx = dropbox_client
         dropbox_path_lower = "/" + dropbox_path.lower().strip("/")
 
-        os.makedirs(local_base_dir, exist_ok=True)
+        files_manager.make_dir(local_base_dir)
 
         latest_sync = cls.objects.filter(local_path=local_base_dir).order_by("-date").first()
 
@@ -55,28 +59,23 @@ class FolderSync(models.Model):
             path = metadata.path_lower[len(dropbox_path_lower) + 1:]
             local_path = os.path.join(local_base_dir, path)
 
-            if not is_deleted and os.path.exists(local_path):
-                if is_folder != os.path.isdir(local_path):
+            if not is_deleted and files_manager.exists(local_path):
+                if is_folder != files_manager.is_dir(local_path):
                     is_deleted = True
 
             if is_deleted:
-                try:
-                    os.remove(local_path)
-                except OSError:
-                    shutil.rmtree(local_path)
+                files_manager.remove(local_path)
                 continue
 
             if is_folder:
-                os.makedirs(local_path, exist_ok=True)
+                files_manager.make_dir(local_path)
                 continue
 
             if is_file:
-                try:
-                    __, response = dbx.files_download(os.path.join(dropbox_path_lower, path))
-                finally:
-                    response.close()
-                with open(local_path, "wb") as file_handler:
-                    file_handler.write(response.content)
+                __, response = dbx.files_download(os.path.join(dropbox_path_lower, path))
+                with contextlib.closing(response):
+                    files_manager.write(local_path, response.content)
+                continue
 
         cls.objects.create(
             cursor=cursor,

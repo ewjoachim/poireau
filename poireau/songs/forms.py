@@ -20,14 +20,15 @@ class FolderChoice(forms.Form):
 
 
 class DiscoverForm(forms.Form):
+    field_pattern = "song_{}"
 
     def __init__(self, songs, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices = [("", _("Delete"))], [
+        choices = [("", _("Nothing : Delete this song"))] + [
             (song.tmp_id, song.title)
             for song in songs["appeared"]
         ]
         for song in songs["disappeared"]:
             self.fields["song_{}".format(song.id)] = forms.ChoiceField(
-                choices=choices, label="Replaced by :", required=False
+                choices=choices, label=_("Replace {} by :").format(song), required=False
             )

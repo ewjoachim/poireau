@@ -57,8 +57,16 @@ class XmlSong(object):
         counter = itertools.count(1)
         for song in found_songs:
             song.tmp_id = next(counter)
+
+        # Disappeared are the ones not here anymore
         disappeared = reference_songs - found_songs
+
+        # Appeared are the ones that weren't here before
         appeared = found_songs - reference_songs
+
+        # An updated pair is formed when a disappeared and an appeared
+        # have the same title
+
         disappeared_by_title = {
             song.title: song
             for song in disappeared
@@ -69,6 +77,7 @@ class XmlSong(object):
         }
 
         common_names = set(appeared_by_title) & set(disappeared_by_title)
+
         updated = {
             disappeared_by_title[title]: appeared_by_title[title]
             for title in common_names
@@ -76,25 +85,44 @@ class XmlSong(object):
         disappeared -= set(updated.values())
         appeared -= set(updated.values())
 
+        # add to the "updated" the ones that were moved
+        reference_by_title = {
+            song.title: song
+            for song in reference_songs
+        }
+        found_by_title = {
+            song.title: song
+            for song in found_songs
+        }
+        common_names = set(reference_by_title) & set(found_by_title)
+        for title in common_names:
+            reference = reference_by_title[title]
+            found = found_by_title[title]
+            if reference.dir_path != found.dir_path:
+                updated[reference] = found
+
         return appeared, disappeared, updated
 
 
 class FoundSong(XmlSong):
 
-    def __init__(self, dir_path, file_name, explorer):
+    def __init__(self, dir_path, file_name, files_manager):
         self.dir_path = dir_path
         self.file_name = file_name
-        self.explorer = explorer
+        self.files_manager = files_manager
 
     @property
     def path(self):
         return os.path.join(self.dir_path, self.file_name)
 
     def get_file_content(self):
-        return self.explorer.get_content(self)
+        return self.files_manager.read(self.path)
 
     def to_model_song(self):
-        return apps.get_model("songs.Song")(name=self.title, path=self.path)
+        return apps.get_model("songs.Song")(
+            name=self.title, path=self.path,
+            xml_content=self.get_file_content()
+        )
 
 
 class XmlPart(object):

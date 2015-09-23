@@ -4,14 +4,40 @@
 {% block page_title %}{% trans "Compare songs" %} - {% endblock page_title %}
 
 {% block content %}
-	<h3>{% trans "New songs" %}</h3>
-	<ul>
-		{% for song in appeared %}
-			<li>{{ song }}</li>
-		{% endfor %}
-	</ul>
-	<h3>{% trans "Removed songs" %}</h3>
-	<ul>
+
+	{% if songs.appeared %}
+		<h3>{% trans "New songs" %}</h3>
+		<ul>
+			{% for song in songs.appeared %}
+				<li>{{ song }}</li>
+			{% endfor %}
+		</ul>
+
+	{% endif %}
+
+	{% if songs.disappeared %}
+		<h3>{% trans "Removed songs" %}</h3>
+		<ul>
+			{% for song in songs.disappeared %}
+				<li>{{ song }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	{% if songs.updated %}
+		<h3>{% trans "Removed songs" %}</h3>
+		<ul>
+			{% for song1, song2 in songs.updated.items %}
+				<li>{{ song1 }}</li>
+				<li>{{ song2 }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button class="btn btn-primary">{% trans "OK" %}</button>
+	</form>
 
 	</ul>
 {% endblock content %}
