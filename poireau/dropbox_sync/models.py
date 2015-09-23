@@ -3,18 +3,19 @@ import shutil
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 import dropbox
 
 
 class FolderSync(models.Model):
     cursor = models.CharField(max_length=512, verbose_name=_("cursor"), null=True)
-    date = models.DateTimeField(auto_now_add=True, verbose_name=_("date"))
+    date = models.DateTimeField(verbose_name=_("date"), default=timezone.now)
     dropbox_path = models.CharField(max_length=512, verbose_name=_("dropbox path"))
     local_path = models.CharField(max_length=512, verbose_name=_("local path"))
 
     class Meta(object):
-        app_label = "dropbox"
+        app_label = "dropbox_sync"
         verbose_name = _("Folder Sync")
         verbose_name_plural = _("Folder Syncs")
 
