@@ -1,11 +1,11 @@
 # Project requirements
 
-Django==1.8.3
-django-bootstrap3==6.1.0
-django-extensions==1.5.5
+Django==1.8.4
+django-bootstrap3==6.2.2
+django-extensions==1.5.7
 django-debug-toolbar==1.3.2
 sh==1.11
-pytz==2015.4
+pytz==2015.6
 dj_database_url==0.3.0
 dj_static==0.0.6
 dropbox==3.34

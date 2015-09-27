@@ -2,4 +2,4 @@
 
 -r base.txt
 
-ipython[all]==3.2.1
+ipython[notebook]==4.0.0
