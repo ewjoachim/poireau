@@ -20,7 +20,7 @@ class Song(models.Model):
     xml_content = models.TextField()
     path = models.CharField(max_length=255, verbose_name=_("Path"), help_text=_("Path to the xml file"), unique=True)
 
-    name = models.CharField(verbose_name=_("Name"), max_length=512, unique=True)
+    name = models.CharField(verbose_name=_("Name"), max_length=512)
 
     date_created = models.DateTimeField(verbose_name=_('Creation date'), auto_now_add=True, blank=True)
     date_modified = models.DateTimeField(verbose_name=_('Last modification date'), auto_now=True, blank=True)
