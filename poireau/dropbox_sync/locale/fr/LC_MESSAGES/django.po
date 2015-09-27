@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-27 22:43+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: poireau/dropbox_sync/models.py:14
+msgid "cursor"
+msgstr "curseur"
+
+#: poireau/dropbox_sync/models.py:15
+msgid "date"
+msgstr "date"
+
+#: poireau/dropbox_sync/models.py:16
+msgid "dropbox path"
+msgstr "chemin Dropbox"
+
+#: poireau/dropbox_sync/models.py:17
+msgid "local path"
+msgstr "chemin local"
+
+#: poireau/dropbox_sync/models.py:21
+msgid "Folder Sync"
+msgstr "Synchronisation de dossier"
+
+#: poireau/dropbox_sync/models.py:22
+msgid "Folder Syncs"
+msgstr "Synchronisations de dossiers"
+
+#: poireau/dropbox_sync/models.py:25
+msgid ""
+"Synced {dropbox_folder} to {local_folder} on {date:%Y-%m-%d %H:%M:%S} "
+"({cursor})"
+msgstr "{dropbox_folder} a été synchronisé vers {local_folder} le {date:%Y-%m-%d %H:%M:%S} "
+"({cursor})"
+
+#: poireau/dropbox_sync/models.py:106
+msgid "Created / updated {}"
+msgstr "{} a été créé / modifié"
+
+#: poireau/dropbox_sync/models.py:108
+msgid "Created folder {}"
+msgstr "Le dossier {} a été créé"
+
+#: poireau/dropbox_sync/models.py:110
+msgid "Deleted {}"
+msgstr "{} a été supprimé"
+
+#: poireau/dropbox_sync/views.py:52
+msgid "You have not authorized the application."
+msgstr "Vous n'avez pas autorisé l'application."

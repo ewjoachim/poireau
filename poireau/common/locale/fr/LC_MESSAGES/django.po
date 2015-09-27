@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-25 09:59+0000\n"
+"POT-Creation-Date: 2015-09-27 22:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: poireau/common/settings.py:83
+#: poireau/common/settings.py:106
 msgid "English"
 msgstr "Anglais"
 
-#: poireau/common/settings.py:84
+#: poireau/common/settings.py:107
 msgid "French"
 msgstr "Français"
 
@@ -35,9 +35,13 @@ msgstr "Connexion"
 msgid "Poireau"
 msgstr "Poireau"
 
-#: poireau/common/templates/base/base.html:35
+#: poireau/common/templates/base/base.html:39
 msgid "Menu"
 msgstr "Menu"
+
+#: poireau/common/templates/base/form.html:16
+msgid "Ok"
+msgstr ""
 
 #: poireau/common/templates/base/home.html:4
 #: poireau/common/templates/base/logged_base.html:6

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-25 09:59+0000\n"
+"POT-Creation-Date: 2015-09-27 22:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,102 +18,142 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: poireau/songs/models/part.py:13 poireau/songs/models/song.py:31
-msgid "Song"
-msgstr "Chanson"
+#: poireau/songs/forms.py:9
+msgid "Folder"
+msgstr "Dossier"
 
-#: poireau/songs/models/part.py:14
-msgid "Section"
-msgstr "Pupitre"
+#: poireau/songs/forms.py:9
+msgid "The Dropbox folder that contains the songs."
+msgstr "Le dossier Dropbox qui contient vos chansons"
 
-#: poireau/songs/models/part.py:16
-msgid "Index"
-msgstr "Index"
+#: poireau/songs/forms.py:27
+msgid "Nothing : Delete this song"
+msgstr "Rien : Supprimer cette chanson"
 
-#: poireau/songs/models/part.py:17
-msgid ""
-"Number of the part in all the unnamed voices in the part (used for unnamed "
-"parts only)"
-msgstr ""
-"Numéro de la voix parmis toutes les voix sans titre (utilisé uniquement) "
-"pour celles-ci)"
+#: poireau/songs/forms.py:33
+msgid "Replace {} by :"
+msgstr "Remplacer {} par :"
 
-#: poireau/songs/models/part.py:28
-msgid "Part"
-msgstr "Voix"
-
-#: poireau/songs/models/part.py:29
-msgid "Parts"
-msgstr "Voix"
-
-#: poireau/songs/models/part.py:49
-#, python-brace-format
-msgid "Part {number}"
-msgstr "Voix {number}"
-
-#: poireau/songs/models/part.py:161
+#: poireau/songs/models/part.py:10
 msgid "A"
 msgstr "la"
 
-#: poireau/songs/models/part.py:161
+#: poireau/songs/models/part.py:11
 msgid "B"
 msgstr "si"
 
-#: poireau/songs/models/part.py:161
+#: poireau/songs/models/part.py:12
 msgid "C"
 msgstr "do"
 
-#: poireau/songs/models/part.py:161
+#: poireau/songs/models/part.py:13
 msgid "D"
 msgstr "ré"
 
-#: poireau/songs/models/part.py:162
+#: poireau/songs/models/part.py:14
 msgid "E"
 msgstr "mi"
 
-#: poireau/songs/models/part.py:162
+#: poireau/songs/models/part.py:15
 msgid "F"
 msgstr "fa"
 
-#: poireau/songs/models/part.py:162
+#: poireau/songs/models/part.py:16
 msgid "G"
 msgstr "sol"
 
-#: poireau/songs/models/part.py:164
-msgid "♯"
-msgstr "♯"
-
-#: poireau/songs/models/part.py:164
+#: poireau/songs/models/part.py:19
 msgid "♭"
 msgstr "♭"
 
-#: poireau/songs/models/part.py:165
-#, python-brace-format
-msgid "(oct. {octave})"
+#: poireau/songs/models/part.py:21
+msgid "♯"
+msgstr "♯"
+
+#: poireau/songs/models/part.py:28 poireau/songs/models/song.py:29
+msgid "Song"
+msgstr "Chanson"
+
+#: poireau/songs/models/part.py:32
+msgid "Section"
+msgstr "Pupitre"
+
+#: poireau/songs/models/part.py:34
+msgid "First note"
+msgstr "Première note"
+
+#: poireau/songs/models/part.py:38
+msgid "First note accidental"
+msgstr "Altération de la première note"
+
+#: poireau/songs/models/part.py:55
+msgid "Part"
+msgstr "Voix"
+
+#: poireau/songs/models/part.py:56
+msgid "Parts"
+msgstr "Voix"
+
+#: poireau/songs/models/part.py:75
+#, fuzzy
+#| msgid "(oct. {octave})"
+msgid " (oct. {})"
 msgstr "(oct. {octave})"
 
-#: poireau/songs/models/song.py:22
+#: poireau/songs/models/song.py:21
 msgid "Path"
 msgstr "Chemin"
 
-#: poireau/songs/models/song.py:25
+#: poireau/songs/models/song.py:21
+msgid "Path to the xml file"
+msgstr ""
+
+#: poireau/songs/models/song.py:23
 msgid "Name"
 msgstr "Nom"
 
-#: poireau/songs/models/song.py:27
+#: poireau/songs/models/song.py:25
 msgid "Creation date"
 msgstr "Date de création"
 
-#: poireau/songs/models/song.py:28
+#: poireau/songs/models/song.py:26
 msgid "Last modification date"
 msgstr "Date de dernière modification"
 
-#: poireau/songs/models/song.py:32 poireau/songs/templates/songs/list.html:4
+#: poireau/songs/models/song.py:30 poireau/songs/templates/songs/list.html:4
 msgid "Songs"
 msgstr "Chansons"
 
+#: poireau/songs/templates/songs/compare.html:4
+msgid "Compare songs"
+msgstr "Comparer les chansons"
+
+#: poireau/songs/templates/songs/compare.html:8
+msgid "Changes detected"
+msgstr "Changements détectés"
+
+#: poireau/songs/templates/songs/compare.html:17
+msgid "New songs"
+msgstr "Nouvelles chansons"
+
+#: poireau/songs/templates/songs/compare.html:27
+msgid "Removed songs"
+msgstr "Chansons supprimées"
+
+#: poireau/songs/templates/songs/compare.html:36
+msgid "Updated songs"
+msgstr "Chansons mises à jour"
+
+#: poireau/songs/templates/songs/compare.html:46
+msgid "Nothing to update."
+msgstr "Rien à signaler"
+
+#: poireau/songs/templates/songs/compare.html:52
+msgid "OK"
+msgstr "OK"
+
 #: poireau/songs/templates/songs/detail.html:7
-#: poireau/songs/templates/songs/list.html:7
+#: poireau/songs/templates/songs/list.html:10
 msgid "Random song"
 msgstr "Chanson aléatoire"
 
@@ -127,41 +167,55 @@ msgstr ""
 "\n"
 "<strong>%(name)s</strong> commence avec un <strong>%(note)s</strong>"
 
-#: poireau/songs/templates/songs/list.html:10
-msgid "Main"
-msgstr "Dossier sans nom"
+#: poireau/songs/templates/songs/detail.html:19
+msgid "No parts found in the file (or the file can't be found ?)"
+msgstr ""
+"Aucune voix trouvée dans le fichier (ou alors le fichier est illisible ?)"
 
-#: poireau/songs/templates/songs/list.html:22
+#: poireau/songs/templates/songs/list.html:8
+msgid "Update songs"
+msgstr "Mettre à jour les chansons"
+
+#: poireau/songs/templates/songs/list.html:9
+msgid "Sync from Dropbox"
+msgstr "Synchroniser depuis la Dropbox"
+
+#: poireau/songs/templates/songs/list.html:28
+msgid "No parts detected in this song."
+msgstr "Aucune voix trouvée dans la chanson"
+
+#: poireau/songs/templates/songs/list.html:30
 #, python-format
 msgid ""
 "\n"
-"\t\t\t\t\t\t\tThis song has a <strong>single</strong> part\n"
-"\t\t\t\t\t\t"
+"\t\t\t\t\t\t\t\tThis song has a <strong>single</strong> part\n"
+"\t\t\t\t\t\t\t"
 msgid_plural ""
 "\n"
-"\t\t\t\t\t\t\tThis song has <strong>%(num_parts)s</strong> parts\n"
-"\t\t\t\t\t\t"
+"\t\t\t\t\t\t\t\tThis song has <strong>%(num_parts_l)s</strong> parts\n"
+"\t\t\t\t\t\t\t"
 msgstr[0] ""
 "\n"
 "Cette chanson comporte <strong>une seule</strong> voix"
 msgstr[1] ""
 "\n"
-"Cette chanson comporte <strong>%(num_parts)s</strong> voix"
+"Cette chanson comporte <strong>%(num_parts_l)s</strong> voix"
 
-#: poireau/songs/templates/songs/list.html:30
+#: poireau/songs/templates/songs/list.html:43
 #, python-format
 msgid "In <strong>%(folder)s</strong>"
 msgstr "Dans <strong>%(folder)s</strong>"
 
-#: poireau/songs/templates/songs/list.html:32
+#: poireau/songs/templates/songs/list.html:45
 #, python-format
-msgid ", added <strong>%(time_since)s</strong> ago"
-msgstr ", ajouté il y a <strong>%(time_since)s</strong>"
+msgid "added <strong>%(time_since)s</strong> ago"
+msgstr "ajouté il y a <strong>%(time_since)s</strong>"
 
-#: poireau/songs/templates/songs/list.html:35
+#: poireau/songs/templates/songs/list.html:48
 #, python-format
-msgid ", last modified <strong>%(time_since)s</strong> ago"
-msgstr ", modifié il y a <strong>%(time_since)s</strong>"
+msgid "last modified <strong>%(time_since)s</strong> ago"
+msgstr "modifié il y a <strong>%(time_since)s</strong>"
 
-#~ msgid "Unnamed part"
-#~ msgstr "Sans titre"
+#: poireau/songs/utils/xml_song.py:169
+msgid "Part {}"
+msgstr "Voix {}"

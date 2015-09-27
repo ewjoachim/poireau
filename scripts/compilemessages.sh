@@ -17,3 +17,7 @@ cd - &>/dev/null
 cd poireau/singers
 django-admin compilemessages
 cd - &>/dev/null
+
+cd poireau/dropbox_sync
+django-admin compilemessages
+cd - &>/dev/null
