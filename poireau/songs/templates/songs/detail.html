@@ -8,7 +8,7 @@
 	<h2>{{ object.name }}</h2>
 	<div class="row">
 		<ul class="list-group col-md-4">
-			{% for part in song.xml_parts %}
+			{% for part in song.parts.all %}
 				<li class="list-group-item">
 					{% blocktrans with name=part.name note=part.first_note %}
 						<strong>{{ name }}</strong> starts with <strong>{{ note }}</strong>

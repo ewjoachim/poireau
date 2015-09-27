@@ -1,4 +1,3 @@
-import os
 import pickle
 
 import dropbox
@@ -16,7 +15,7 @@ from poireau.common.utils import FilesManager
 from ..forms import FolderChoice, DiscoverForm
 from ..utils.xml_song import FoundSong
 from .song import SongMixin
-from ..models import Song
+from ..models import Song, Part
 
 
 class DropboxSyncView(DropboxTokenMixin, SongMixin, FormView):
@@ -33,11 +32,12 @@ class DropboxSyncView(DropboxTokenMixin, SongMixin, FormView):
         return kwargs
 
     def form_valid(self, form):
-        FolderSync.sync_folder(
+        changes = FolderSync.sync_folder(
             dropbox_client=self.client,
             local_base_dir=settings.SONGS_FOLDER,
             dropbox_path="/" + form.cleaned_data["folder"]
         )
+        self.request.session["LATEST_CHANGES"] = changes
         self.success_url = reverse("songs:songs_compare")
 
         return super(DropboxSyncView, self).form_valid(form)
@@ -72,8 +72,8 @@ class SongCompareView(SongMixin, FormView):
             ]
 
             Song = apps.get_model("songs.Song")
-            reference_songs = Song.objects.all()
-            appeared, disappeared, updated = Song.compare_sets(reference_songs, found_songs)
+            reference_songs = [song.xml_song for song in Song.objects.all()]
+            appeared, disappeared, updated = FoundSong.compare_sets(reference_songs, found_songs)
             songs = {
                 "appeared": appeared,
                 "disappeared": disappeared,
@@ -92,6 +92,8 @@ class SongCompareView(SongMixin, FormView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data["songs"] = self.songs
+        if "LATEST_CHANGES" in self.request.session:
+            context_data["changes"] = self.request.session["LATEST_CHANGES"]
 
         return context_data
 
@@ -109,11 +111,20 @@ class SongCompareView(SongMixin, FormView):
             disappeared_id = int(disappeared_field_name[DiscoverForm.field_pattern.index("{}"):])
             mapping[disappeared_by_id[disappeared_id]] = appeared_by_id[appeared_tmp_id]
 
-        songs_to_create = [
-            song.to_model_song()
-            for song in set(songs["appeared"]) - set(mapping.values())
-        ]
+        songs_to_create = []
+        for song in set(songs["appeared"]) - set(mapping.values()):
+            songs_to_create.append(song.to_model_song())
+        paths = [song.path for song in songs_to_create]
+
         Song.objects.bulk_create(songs_to_create)
+
+        parts_to_create = []
+        for songs_created in Song.objects.filter(path__in=paths):
+            # parts_to_create.extend(songs_created.create_model_parts())
+            for part in songs_created.create_model_parts():
+                part.save()
+
+        Part.objects.bulk_create(parts_to_create)
 
         songs_to_delete = [
             song.id
@@ -123,11 +134,10 @@ class SongCompareView(SongMixin, FormView):
 
         songs["updated"].update(mapping)
 
-        for new_song, old_song in songs["updated"]:
+        for new_song, old_song in songs["updated"].items():
             new_song.update_from(old_song)
-            new_song.save()
 
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("songs:list")
+        return reverse("songs:song_list")

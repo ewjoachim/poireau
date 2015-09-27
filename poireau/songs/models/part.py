@@ -23,10 +23,20 @@ class Part(models.Model):
     NOTES_ORDER = "cdefgab"
 
     name = models.CharField(max_length=64)
-    song = models.ForeignKey("songs.Song", related_name='parts', verbose_name=_("Song"))
-    section = models.ForeignKey("singers.Section", related_name='parts', verbose_name=_("Section"), blank=True, null=True)
-    first_note_midi = models.IntegerField(verbose_name=_("First note"), blank=True, null=True)
-    first_note_accidental = models.CharField(max_length=1, choices=ACCIDENTALS, default="natural", verbose_name=_("First note accidental"), blank=True)
+    song = models.ForeignKey(
+        "songs.Song", related_name='parts',
+        verbose_name=_("Song")
+    )
+    section = models.ForeignKey(
+        "singers.Section", related_name='parts',
+        verbose_name=_("Section"), blank=True, null=True)
+    first_note_midi = models.IntegerField(
+        verbose_name=_("First note"), blank=True, null=True
+    )
+    first_note_accidental = models.CharField(
+        max_length=1, choices=ACCIDENTALS, default="natural",
+        verbose_name=_("First note accidental"), blank=True
+    )
 
     @property
     def first_note(self):

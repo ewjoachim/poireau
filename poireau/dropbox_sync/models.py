@@ -21,8 +21,17 @@ class FolderSync(models.Model):
         verbose_name = _("Folder Sync")
         verbose_name_plural = _("Folder Syncs")
 
+    def __str__(self):
+        return _("Synced {dropbox_folder} to {local_folder} on {date:%Y-%m-%d %H:%M:%S} ({cursor})").format(
+            dropbox_folder=self.dropbox_path,
+            local_folder=self.local_path,
+            date=self.date,
+            cursor=self.cursor[-6:]
+        )
+
     @classmethod
     def sync_folder(cls, dropbox_client, local_base_dir, dropbox_path, files_manager=None):
+
         files_manager = files_manager or FilesManager()
 
         dbx = dropbox_client
@@ -36,20 +45,17 @@ class FolderSync(models.Model):
         if latest_sync:
             cursor = latest_sync.cursor
 
-        if cursor:
-            folder_list = dbx.files_list_folder_continue(cursor=cursor)
-        else:
-            folder_list = dbx.files_list_folder(dropbox_path, recursive=True)
-
         metadata_list = []
 
         while True:
+            if cursor:
+                folder_list = dbx.files_list_folder_continue(cursor=cursor)
+            else:
+                folder_list = dbx.files_list_folder(dropbox_path, recursive=True)
             cursor = folder_list.cursor
             metadata_list += folder_list.entries
             if not folder_list.has_more:
                 break
-
-            folder_list = dbx.files_list_folder_continue(cursor=cursor)
 
         for metadata in metadata_list:
             is_folder = isinstance(metadata, dropbox.files.FolderMetadata)
@@ -82,6 +88,24 @@ class FolderSync(models.Model):
             dropbox_path=dropbox_path,
             local_path=local_base_dir,
         )
+        return cls.dropbox_descriptions(metadata_list)
+
+    @classmethod
+    def dropbox_descriptions(cls, changes):
+        descriptions = []
+        for change in changes:
+            if isinstance(change, dropbox.files.FileMetadata):
+                description = _("Created / updated {}")
+            elif isinstance(change, dropbox.files.FolderMetadata):
+                description = _("Created folder {}")
+            elif isinstance(change, dropbox.files.DeletedMetadata):
+                description = _("Deleted {}")
+            else:
+                raise NotImplementedError()
+
+            description = description.format(change.name)
+            descriptions.append(description)
+        return descriptions
 
     @classmethod
     def fake_sync_folder(cls, dropbox_client, local_base_dir, dropbox_path):

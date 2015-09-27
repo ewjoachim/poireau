@@ -8,17 +8,19 @@ from io import BytesIO
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy as reverse
+from django.utils.functional import cached_property
+from django.apps import apps
 
 import sh
 
-from ..utils.xml_song import XmlSong
+from ..utils.xml_song import DBSong
 
 
-class Song(XmlSong, models.Model):
+class Song(models.Model):
     xml_content = models.TextField()
-    path = models.CharField(max_length=255, verbose_name=_("Path"), help_text=_("Path to the xml file"))
+    path = models.CharField(max_length=255, verbose_name=_("Path"), help_text=_("Path to the xml file"), unique=True)
 
-    name = models.CharField(verbose_name=_("Name"), max_length=512)
+    name = models.CharField(verbose_name=_("Name"), max_length=512, unique=True)
 
     date_created = models.DateTimeField(verbose_name=_('Creation date'), auto_now_add=True, blank=True)
     date_modified = models.DateTimeField(verbose_name=_('Last modification date'), auto_now=True, blank=True)
@@ -27,27 +29,45 @@ class Song(XmlSong, models.Model):
         verbose_name = _("Song")
         verbose_name_plural = _("Songs")
 
-    id_filename = ".id"
-
-    def get_file_content(self):
-        return self.xml_content.encode("utf-8")
-
-    def get_absolute_url(self):
-        return reverse("songs:song_detail", kwargs={"pk": self.id})
-
     @property
     def folder(self):
         return os.path.dirname(self.path)
 
-    def create_parts(self):
-        for part in self.xml_parts:
-            model_part = part.to_model_part()
-            self.parts.add(model_part)
+    @property
+    def category(self):
+        return os.path.basename(os.path.dirname(self.folder))
 
-    def update_from(self, song):
-        self.xml_content = song.get_file_content()
-        self.path = song.dir_path
-        self.name = song.title
+    @property
+    def sort_key(self):
+        return (len(self.path.split(os.sep)), self.category)
+
+    @cached_property
+    def xml_song(self):
+        return DBSong(
+            model_instance=self
+        )
+
+    def get_absolute_url(self):
+        return reverse("songs:song_detail", kwargs={"pk": self.id})
+
+    def create_model_parts(self):
+        """
+        Returns new instances of model parts (not saved yet)
+        by reading the xml content and extracting the parts.
+        """
+        if not self.id:
+            raise ValueError("Cannot create parts if Song has not been saved yet.")
+        xml_parts = list(self.xml_song.xml_parts)
+        names = {part.name for part in xml_parts}
+        Section = apps.get_model("singers", "Section")
+        sections = dict(Section.objects.filter(name__in=names).values_list("name", "id"))
+        model_parts = []
+        for xml_part in xml_parts:
+            model_part = xml_part.to_model_part()
+            model_part.song_id = self.id
+            model_part.id = sections.get(model_part.name)
+            model_parts.append(model_part)
+        return model_parts
 
     def __str__(self):
         return self.name

@@ -5,7 +5,7 @@ from io import BytesIO
 
 from lxml import objectify
 
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
 from django.apps import apps
 
@@ -34,12 +34,18 @@ class XmlSong(object):
     def xml_parts(self):
         return XmlPart.from_song(self)
 
-    @property
+    @cached_property
     def title(self):
         try:
             return self.parsed_xml["movement-title"].text
         except AttributeError:
-            return ugettext("Unnamed song")
+            try:
+                return max(list(
+                    self.parsed_xml.credit["credit-words"]
+                ), key=lambda element: element.get("font-size", 0)).text
+            except AttributeError:
+
+                return os.path.basename(os.path.dirname(self.path))
 
     def __eq__(self, other):
         return self.sha1 == other.sha1
@@ -98,7 +104,7 @@ class XmlSong(object):
         for title in common_names:
             reference = reference_by_title[title]
             found = found_by_title[title]
-            if reference.dir_path != found.dir_path:
+            if reference.path != found.path:
                 updated[reference] = found
 
         return appeared, disappeared, updated
@@ -125,14 +131,54 @@ class FoundSong(XmlSong):
         )
 
 
+class DBSong(XmlSong):
+    def __init__(self, model_instance, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.model_instance = model_instance
+        self.path = model_instance.path
+        self.xml_content = model_instance.xml_content
+        self.name = model_instance.name
+        self.id = model_instance.id
+
+    def get_file_content(self):
+        return self.xml_content.encode("utf-8")
+
+    def update_from(self, song):
+        """
+        Triggers a save
+        """
+        self.model_instance.xml_content = song.get_file_content()
+        self.model_instance.path = song.path
+        self.model_instance.name = song.title
+        self.model_instance.save()
+
+
 class XmlPart(object):
     def __init__(self, data, metadata, counter):
         self.metadata = metadata
-        if metadata["part-name"]:
-            self.name = metadata["part-name"].text
-        else:
+        self.name = self.metadata_display_name(metadata)
+
+        if not self.name:
             self.name = _("Part {}").format(next(counter))
+
         self.data = data
+
+    def metadata_display_name(self, metadata):
+        if getattr(metadata, "part-name"):
+            try:
+                if metadata["part-name-display"].get("print-object") == "no":
+                    return None
+            except (KeyError, AttributeError):
+                pass
+
+            try:
+                if metadata["part-name"].get("print-object") == "no":
+                    return None
+            except (KeyError, AttributeError):
+                pass
+
+            return metadata["part-name"].text
+        return None
 
     @classmethod
     def from_song(cls, song):
@@ -153,7 +199,7 @@ class XmlPart(object):
         """
         for measure in self.data.measure:
             for note in measure.note:
-                if hasattr(note, "rest"):
+                if not hasattr(note, "pitch"):
                     continue
 
                 step = note.pitch.step.text
@@ -165,7 +211,7 @@ class XmlPart(object):
                 midi_value = octave * 12 + apps.get_model("songs.Part").NOTES_ORDER.index(step.lower())
                 return midi_value, accidental
 
-        return None, None
+        return None, "natural"
 
     def to_model_part(self):
         Part = apps.get_model("songs.Part")

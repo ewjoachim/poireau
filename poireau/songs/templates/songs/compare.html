@@ -4,7 +4,15 @@
 {% block page_title %}{% trans "Compare songs" %} - {% endblock page_title %}
 
 {% block content %}
+	{% if changes %}
+		<h3>{% trans "Changes detected" %}</h3>
+		<ul>
+			{% for change in changes %}
+				<li>{{ change }}</li>
+			{% endfor %}
 
+		</ul>
+	{% endif %}
 	{% if songs.appeared %}
 		<h3>{% trans "New songs" %}</h3>
 		<ul>
@@ -25,14 +33,19 @@
 	{% endif %}
 
 	{% if songs.updated %}
-		<h3>{% trans "Removed songs" %}</h3>
-		<ul>
+		<h3>{% trans "Updated songs" %}</h3>
+		<dl>
 			{% for song1, song2 in songs.updated.items %}
-				<li>{{ song1 }}</li>
-				<li>{{ song2 }}</li>
+				<dt>{{ song1 }}</dt>
+				<dd>{{ song2 }}</dd>
 			{% endfor %}
-		</ul>
+		</dl>
 	{% endif %}
+
+	{% if not songs.appeared and not songs.disappeared and not songs.updated %}
+		<h3>{% trans "Nothing to update." %}</h3>
+	{% endif %}
+
 	<form method="POST">
 		{% csrf_token %}
 		{{ form.as_p }}

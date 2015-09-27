@@ -15,7 +15,10 @@ class SongListView(SongMixin, ListView):
     menu_list = ["songs"]
 
     def get_queryset(self):
-        return super(SongListView, self).get_queryset().order_by("path")
+        return sorted(
+            super(SongListView, self).get_queryset(),
+            key=lambda song: song.sort_key
+        )
 
 
 class SongDetailView(SongMixin, DetailView):

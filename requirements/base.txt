@@ -8,5 +8,5 @@ sh==1.11
 pytz==2015.4
 dj_database_url==0.3.0
 dj_static==0.0.6
-dropbox-py3==2.2.3
+dropbox==3.34
 lxml==3.4.4
