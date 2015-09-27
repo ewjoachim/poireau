@@ -8,6 +8,7 @@ urlpatterns = patterns(
     '',
     # Apps
     url(r'^songs/', include('poireau.songs.urls', namespace="songs")),
+    url(r'^dropbox/', include('poireau.dropbox_sync', namespace="dropbox_sync")),
     url(r'^admin/', include(admin.site.urls)),
 
     # Base views

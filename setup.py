@@ -11,7 +11,7 @@ with open(os.path.join(os.path.dirname(__file__), 'version.txt')) as version_fil
     VERSION = version_file.read().strip()
 
 REQUIREMENTS = [
-    requirement
+    requirement.req.__str__()
     for requirement in req.parse_requirements("requirements.txt", session=download.PipSession())
 ]
 

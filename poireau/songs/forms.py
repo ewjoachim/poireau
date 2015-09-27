@@ -10,10 +10,25 @@ class FolderChoice(forms.Form):
         required=False
     )
 
-    def __init__(self, explorer, *args, **kwargs):
+    def __init__(self, folders, *args, **kwargs):
         super(FolderChoice, self).__init__(*args, **kwargs)
 
         self.fields["folder"].choices = sorted([
-            (dir_path, os.path.basename(dir_path) or _("Top level directory"))
-            for dir_path in explorer.get_dirs()
+            (dir_path, os.path.basename(dir_path))
+            for dir_path in folders
         ])
+
+
+class DiscoverForm(forms.Form):
+    field_pattern = "song_{}"
+
+    def __init__(self, songs, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        choices = [("", _("Nothing : Delete this song"))] + [
+            (song.tmp_id, song.title)
+            for song in songs["appeared"]
+        ]
+        for song in songs["disappeared"]:
+            self.fields["song_{}".format(song.id)] = forms.ChoiceField(
+                choices=choices, label=_("Replace {} by :").format(song), required=False
+            )

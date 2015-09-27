@@ -4,12 +4,14 @@
 {% block page_title %}{% trans "Songs" %} - {% endblock page_title %}
 
 {% block content %}
-	<a class='btn btn-default pull-right' href="{% url 'songs:song_random' %}"><i class="fa fa-random"></i> {% trans "Random song" %}</a>
-	 <a class='btn btn-primary pull-right' href="{% url 'songs:songs_choose_folder_dropbox' %}"><i class="fa fa-dropbox"></i> {% trans "Songs on Dropbox" %}</a>
-	 <a class='btn btn-success pull-right' href="{% url 'songs:songs_choose_folder_server' %}"><i class="fa fa-server"></i> {% trans "Songs on the Server" %}</a>
-	{% regroup object_list by folder as folder_list %}
+	<div class="btn-group pull-right" role="group">
+		 <a class='btn btn-success' href="{% url 'songs:songs_compare' %}"><i class="fa fa-server"></i> {% trans "Update songs" %}</a>
+		 <a class='btn btn-primary' href="{% url 'songs:songs_dropbox_sync' %}"><i class="fa fa-dropbox"></i> {% trans "Sync from Dropbox" %}</a>
+			<a class='btn btn-default' href="{% url 'songs:song_random' %}"><i class="fa fa-random"></i> {% trans "Random song" %}</a>
+	</div>
+	{% regroup object_list by category as folder_list %}
 	{% for folder in folder_list %}
-		<h3>{{folder.grouper|default:_("Main")|title}} :</h3>
+		<h3>{{folder.grouper}} :</h3>
 		<div class="row">
 		{% for song in folder.list %}
 			{% if forloop.counter0|divisibleby:"3" and forloop.counter0 > 0 %}
@@ -21,21 +23,31 @@
 				</h3></div>
 				<ul class="panel-body list-group">
 					<li class="list-group-item">
-						{% blocktrans count num_parts=song.parts.all|length %}
-							This song has a <strong>single</strong> part
-						{% plural %}
-							This song has <strong>{{num_parts}}</strong> parts
-						{% endblocktrans %}:
-						{{ song.parts.all|join:", " }}
+					{% with song.parts.all|length as num_parts %}
+						{% if num_parts == 0 %}
+							{% trans "No parts detected in this song." %}
+						{% else %}
+							{% blocktrans count num_parts_l=num_parts %}
+								This song has a <strong>single</strong> part
+							{% plural %}
+								This song has <strong>{{num_parts_l}}</strong> parts
+							{% endblocktrans %}:
+							{% for part in song.parts.all %}
+								{{ part.name }}{% if not forloop.last %}, {% endif %}
+							{% endfor %}
+						{% endif %}
+					{% endwith %}
 					</li>
 					<li class="list-group-item">
-						{% blocktrans with folder=song.folder %}In <strong>{{ folder }}</strong>{% endblocktrans %}
+						<ul>
+						<li>{% blocktrans with folder=song.folder %}In <strong>{{ folder }}</strong>{% endblocktrans %}</li>
 						{% if song.date_created %}
-							{% blocktrans with time_since=song.date_created|timesince %}, added <strong>{{ time_since }}</strong> ago{% endblocktrans %}
+							<li>{% blocktrans with time_since=song.date_created|timesince %}added <strong>{{ time_since }}</strong> ago{% endblocktrans %}&nbsp;</li>
 						{% endif %}
 						{% if song.date_modified %}
-							{% blocktrans with time_since=song.date_modified|timesince %}, last modified <strong>{{ time_since }}</strong> ago{% endblocktrans %}
+							<li>{% blocktrans with time_since=song.date_modified|timesince %}last modified <strong>{{ time_since }}</strong> ago{% endblocktrans %}</li>
 						{% endif %}
+						</ul>
 					</li>
 				</ul>
 			</div></div>

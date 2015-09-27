@@ -4,10 +4,53 @@
 {% block page_title %}{% trans "Compare songs" %} - {% endblock page_title %}
 
 {% block content %}
-	<h3>{{base_folder}}</h3>
-	<ul>
-		{% for song in songs %}
-			<li>{{song}}</li>
-		{% endfor %}
+	{% if changes %}
+		<h3>{% trans "Changes detected" %}</h3>
+		<ul>
+			{% for change in changes %}
+				<li>{{ change }}</li>
+			{% endfor %}
+
+		</ul>
+	{% endif %}
+	{% if songs.appeared %}
+		<h3>{% trans "New songs" %}</h3>
+		<ul>
+			{% for song in songs.appeared %}
+				<li>{{ song }}</li>
+			{% endfor %}
+		</ul>
+
+	{% endif %}
+
+	{% if songs.disappeared %}
+		<h3>{% trans "Removed songs" %}</h3>
+		<ul>
+			{% for song in songs.disappeared %}
+				<li>{{ song }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	{% if songs.updated %}
+		<h3>{% trans "Updated songs" %}</h3>
+		<dl>
+			{% for song1, song2 in songs.updated.items %}
+				<dt>{{ song1 }}</dt>
+				<dd>{{ song2 }}</dd>
+			{% endfor %}
+		</dl>
+	{% endif %}
+
+	{% if not songs.appeared and not songs.disappeared and not songs.updated %}
+		<h3>{% trans "Nothing to update." %}</h3>
+	{% endif %}
+
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button class="btn btn-primary">{% trans "OK" %}</button>
+	</form>
+
 	</ul>
 {% endblock content %}
