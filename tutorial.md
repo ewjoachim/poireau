@@ -4,7 +4,7 @@ How to use the project if you're not used to working with Python/Django projects
 Note on this guide
 ------------------
 
-This guide presents the tools and projects used for the Poireau projects. If you want to install quicky the project for development on Ubuntu 14.04 LTS, please see the [ubuntu_install.sh](scripts/ubuntu_install.sh) script.
+This guide presents the tools and projects used for the Poireau project. If you want to quickly install the project for development on Ubuntu 14.04 LTS, please see the [ubuntu_install.sh](scripts/ubuntu_install.sh) script.
 
 This guide should be enough for you to understand everything on this script before running it, and adapt it to your needs.
 
@@ -13,14 +13,14 @@ Git, Github, etc
 
 Learn how to use Git in a fun way [here](https://try.github.io/levels/1/challenges/1)
 
-Once this is good, you can create a GitHub account, fork this repo to your GitHub account, clone it and start coding. Don't forget GitHub has a nice graphical user interface to install on your machine to manage your local git repositery, for [Windows](https://windows.github.com/) and [Mac](https://mac.github.com/). For linux, I halighy recommand [Git-cola](https://git-cola.github.io/).
+Once this is good, you can create a GitHub account, fork this repo to your GitHub account, clone it and start coding. Don't forget GitHub has a nice graphical user interface to install on your machine to manage your local git repositery, for [Windows](https://windows.github.com/) and [Mac](https://mac.github.com/). For linux, I highy recommand [Git-cola](https://git-cola.github.io/).
 
 Learn Programming with Python
 -----------------------------
 
 This project uses Python 3.
 
-There is a really good introduction on programming with Python at [intropython.org](http://introtopython.org/). Even if you code already in another language, I advise running through the course, as it explains a lot of the Python philosophy and good practices.
+There is a really good introduction on programming with Python at [intropython.org](http://introtopython.org/). Even if you already code in another language, I advise running through the course, as it explains a lot of the Python philosophy and good practices.
 
 There's also a quick python introduction in the [Django Tutorial](http://tutorial.djangogirls.org/) linked in the django section.
 
@@ -28,9 +28,9 @@ There's also a quick python introduction in the [Django Tutorial](http://tutoria
 VirtualEnv and Pip
 ------------------
 
-I'm going to list the (as far as I can tell) best tools to have in order to ease development.
-I'm mainly refering command line tools.
-The explainations below will mainly focus on Linux and OSX environment.
+I'm going to list the (as far as I can tell) best tools to have to ease development.
+I'm mainly refering to command line tools.
+The explanations below will mainly focus on Linux and OSX environment.
 For windows, there's also a lot of material, including [this](http://www.tylerbutler.com/2012/05/how-to-install-python-pip-and-virtualenv-on-windows-with-powershell/).
 
 1) Use pip. Pip is a python package manager that will allow instantaneous installation of all needed and unneeded python dependencies. Find information on how to install pip (along with its documentation) [here](https://pip.pypa.io/en/latest/installing.html) but the simplest way on Linux and OSX is :
@@ -53,7 +53,7 @@ Another option pip takes is ```-r``` to point to a requirements file, a text fil
 
 2) A virtual environment is a folder containing a copy of python. Especially, this python has it's own installed packages, independent from the system ```python```. This allows to install and uninstall packages for a specific project with no interaction with others ```python``` projects you may have on the side, and without the need for ```sudo```.
 
-Virtualenvs have been added as a standard feature of ```python3```.
+VirtualEnvs have been added as a standard feature of ```python3```.
 
 Create a virtualenv with
 
@@ -133,7 +133,7 @@ This command will copy all the static from various location to one dir, that wil
 Lilypond
 --------
 
-[Lilypond](http://www.lilypond.org/) is a LaTeX module for creating scores. It's a very powerful tool that can do a lot of things and, as of now, it's the best tool we've find to transform a musicxml file to PDF and sound file. As of now, lilypond notation is generated automatically so for now, there's no real need to learn the lilypond syntax, but it may prove helpful later. Though, you will need to have lilypond installed on your machine if you plan to work on the PDF or Music generation parts.
+[Lilypond](http://www.lilypond.org/) is a LaTeX module for creating scores. It's a very powerful tool that can do a lot of things and, as of now, it's the best tool we've found to transform a musicxml file to PDF and sound file. As of now, lilypond notation is generated automatically so for now, there's no real need to learn the lilypond syntax, but it may prove helpful later. Though, you will need to have lilypond installed on your machine if you plan to work on the PDF or Music generation parts.
 
 
 GetText
